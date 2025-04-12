@@ -4,9 +4,8 @@ Master Selenium Automation Testing with Java from scratch! This comprehensive co
 The course is structured around several modules, covering essential topics such as:
 
 # Module-1: Overview on Automation & Selenium
-<hr/>
 
-## Introduction to Automation
+- Introduction to Automation
 
 - Challenges in Manual Testing
 
@@ -22,7 +21,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-2: Java Programming for Selenium
+# Module-2: Java Programming for Selenium
 
 - Java and Eclipse Environment Setup
 
@@ -123,7 +122,7 @@ The course is structured around several modules, covering essential topics such 
 - Autoboxing and Unboxing
 
 
-## Module 3: Java OOPS Concepts
+# Module 3: Java OOPS Concepts
 
 - Classes and Objects
 
@@ -303,7 +302,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-4: Selenium WebDriver (Latest Version)
+# Module-4: Selenium WebDriver (Latest Version)
 
 
 - Introduction to WebDriver and Architecture
@@ -552,7 +551,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-5: TestNG
+# Module-5: TestNG
 
 
 - Introduction to TestNG and Advantages
@@ -663,7 +662,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-6: Page Object Model Pattern
+# Module-6: Page Object Model Pattern
 
 - Generating Extent Reports
 
@@ -679,7 +678,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-7: Selenium Grid
+# Module-7: Selenium Grid
 
 
 
@@ -689,9 +688,7 @@ The course is structured around several modules, covering essential topics such 
 
 - Running Selenium Tests on Grid
 
-## Module-8: Docker
-
-
+# Module-8: Docker
 
 - What is Docker
 
@@ -715,7 +712,7 @@ The course is structured around several modules, covering essential topics such 
 
 - Shut down the Docker Infrastructure
 
-## Module-9: Introduction to Automation Frameworks
+# Module-9: Introduction to Automation Frameworks
 
 - Introduction to Automation Frameworks
 
@@ -726,7 +723,7 @@ The course is structured around several modules, covering essential topics such 
 - Choosing Test Cases for Automation
 
 
-## Module-10: Hybrid Framework with POM (Page Object Model) – Project
+# Module-10: Hybrid Framework with POM (Page Object Model) – Project
 
 - Creating Maven Project and update pom.xml with dependencies
 
@@ -764,7 +761,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-11: Cucumber BDD Framework
+# Module-11: Cucumber BDD Framework
 
 - Introduction to BDD and Cucumber
 
@@ -790,7 +787,7 @@ The course is structured around several modules, covering essential topics such 
 
 
 
-## Module-12: CI & CD Concepts( Git, Github & Jenkins)
+# Module-12: CI & CD Concepts( Git, Github & Jenkins)
 
 - Version Control System Overview
 
