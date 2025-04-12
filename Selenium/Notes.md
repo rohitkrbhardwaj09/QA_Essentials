@@ -131,3 +131,50 @@ Browser (Chrome, Firefox)
   ❌ Requires programming knowledge
 
   ❌ No built-in object repository
+
+
+# **Module-4: Selenium WebDriver**
+
+### **1. Introduction to WebDriver and Architecture**
+
+Selenium WebDriver can be defined in three ways:
+
+**1) WebDriver is one of the component in selenium.**
+> Component of Selenium Suite:
+> - Selenium Suite includes:
+>   - Selenium IDE
+>   - Selenium WebDriver
+>   - Selenium Grid
+> - WebDriver is the core component for automating web applications.
+
+**2) WebDriver is a java interface.**
+> - WebDriver is a Java interface containing:
+>   - Public & static variables
+>   - Public, default, and abstract methods
+> - It is implemented by:
+>   - RemoteWebDriver class, which is extended by:
+>     - ChromeDriver
+>     - FirefoxDriver
+>     - EdgeDriver
+>     - (etc., for other browsers)
+> ```plaintext
+> WebDriver (interface)
+>     ↓
+> RemoteWebDriver (class)
+>     ↓
+> ChromeDriver / FirefoxDriver / EdgeDriver (classes)
+> ```
+
+**3) WebDriver is an API( Application Programming interface)**
+> - Acts as a bridge between:
+>   - Java Program (Client/Presentation Layer)
+>   - Browser (Action Target)
+> - WebDriver exposes methods which are invoked from a Java program (e.g., using Eclipse).
+> - It performs actions on the browser:
+>   - Opening URLs
+>   - Entering inputs
+>   - Clicking buttons
+> - Communication Protocol:
+>   - Old: JSON wire protocol
+>   - New (Selenium 4+): W3C protocol
+
