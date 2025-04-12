@@ -1,13 +1,13 @@
-# Module-1: Overview on Automation & Selenium
+-# Module-1: Overview on Automation & Selenium
 
-**1. Introduction to Automation**
+**1. Introduction to Automation** {#Introduction-to-Automation}
 
   - **Automation Testing**: Using tools/scripts to execute test cases automatically.
   - **Goal**: Increase test efficiency, coverage, and reduce human errors.
   - **Used For**: Regression, smoke, sanity, load testing, etc.
 <hr/>
 
-**2. Challenges in Manual Testing**
+**2. Challenges in Manual Testing** {#Challenges-in-Manual-Testing}
 
  - Time-consuming & repetitive.
  - Error-prone (human mistakes).
@@ -16,7 +16,7 @@
  - Limited test coverage under tight deadlines.
 <hr/>
 
-**3. Overcoming Challenges with Automation**
+**3. Overcoming Challenges with Automation** {#Overcoming-Challenges-with-Automation}
 
 <table>
   <tr>
@@ -42,7 +42,7 @@
 </table>
 <hr/>
 
-**4. Importance of Programming in Automation**
+**4. Importance of Programming in Automation** {#Importance-of-Programming-in-Automation}
 
  - Required to write test logic, loops, conditions.
  - Enables:
@@ -58,14 +58,14 @@
   ```
 <hr/>
 
-**5. Introduction to Selenium**
+**5. Introduction to Selenium** {#Introduction-to-Selenium}
 
  - Selenium is an open-source automation tool for web applications only.
  - Supports multiple browsers and languages.
  - Does not support desktop or mobile apps directly.
 <hr/>
 
-**6. Selenium Components**
+**6. Selenium Components** {#Selenium-Components}
 
 📦 Selenium Suite:
 <table>
@@ -105,7 +105,7 @@ Browser (Chrome, Firefox)
 ```
 <hr/>
 
-**8. Advantages(✅) & Disadvantaged(❌) of Selenium WebDriver**
+**8. Advantages(✅) & Disadvantaged(❌) of Selenium WebDriver**  {#Advantages-and-Disadvantages-of-Selenium-WebDriver}
 
 **--Advantages of Selenium WebDriver--**
 
@@ -137,7 +137,7 @@ Browser (Chrome, Firefox)
 <hr/>
 <hr/>
 
-# **Module-4: Selenium WebDriver**
+# **Module-4: Selenium WebDriver** {#Introduction-to-WebDriver-and-Architecture}
 
 ## **1. Introduction to WebDriver and Architecture**
 
@@ -313,7 +313,7 @@ Example:
   - **Download new** version JARs
 <hr/>
 
-## Setting up WebDriver in Eclipse 
+## Setting up WebDriver in Eclipse {#setting-up-webdriver-in-eclipse}
 
 **Create a Java Class and Write a Sample Script**
 - Right-click on src/main/java
@@ -346,4 +346,207 @@ public class TestLaunch {
     }
 }
 
+```
+<hr/>
+
+## Configuring WebDriver for Different Browsers {configure-webdriver}
+
+✅ Supported Browsers
+Selenium WebDriver supports the following major browsers:
+
+**Chrome – ChromeDriver**
+
+**Firefox – GeckoDriver**
+
+**Edge – EdgeDriver**
+
+**Safari – (macOS only)**
+
+**Internet Explorer – (deprecated, use only if absolutely needed)**
+
+###  Setup using WebDriverManager (Recommended) {webdrivermanager}
+```xml
+<!-- Add to pom.xml -->
+<dependency>
+  <groupId>io.github.bonigarcia</groupId>
+  <artifactId>webdrivermanager</artifactId>
+  <version>5.6.2</version>
+</dependency>
+```
+
+**⚙️ 1. Chrome Browser** {chrome}
+```Java
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class ChromeTest {
+    public static void main(String[] args) {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://google.com");
+        driver.quit();
+    }
+}
+```
+
+**🦊 2. Firefox Browser** {firefox}
+```Java
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class FirefoxTest {
+    public static void main(String[] args) {
+        WebDriverManager.firefoxdriver().setup();
+        WebDriver driver = new FirefoxDriver();
+        driver.get("https://google.com");
+        driver.quit();
+    }
+}
+```
+
+**🟦 3. Microsoft Edge Browser** {edge}
+```Java
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class EdgeTest {
+    public static void main(String[] args) {
+        WebDriverManager.edgedriver().setup();
+        WebDriver driver = new EdgeDriver();
+        driver.get("https://google.com");
+        driver.quit();
+    }
+}
+```
+
+**🍏 4. Safari Browser (macOS Only)** {safari-browser}
+**Requirements:**
+- Safari 10 or later
+- Enable Allow **Remote Automation in Safari** → **Preferences** → **Develop**
+```Java
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.safari.SafariDriver;
+
+public class SafariTest {
+    public static void main(String[] args) {
+        WebDriver driver = new SafariDriver();
+        driver.get("https://google.com");
+        driver.quit();
+    }
+}
+```
+
+**🔄 Switch Browser Dynamically (Example)** {switch-browser_dynamically}
+```Java
+public class CrossBrowserTest {
+    public static void main(String[] args) {
+        String browser = "chrome"; // change to firefox, edge, etc.
+        WebDriver driver;
+
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+                break;
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                driver = new EdgeDriver();
+                break;
+            default:
+                throw new IllegalArgumentException("Browser not supported");
+        }
+
+        driver.get("https://example.com");
+        driver.quit();
+    }
+}
+
+```
+<hr/>
+
+## How to Create Automated Test Case in WebDriver?
+### Automated Test Case Document
+
+#### Test Scenario: Verify login functionality on the application
+
+| Test Case ID | Test Case Description       | Test Steps                                                                 | Test Data                    | Expected Result                      | Actual Result | Status | Comments         |
+|--------------|-----------------------------|----------------------------------------------------------------------------|------------------------------|--------------------------------------|----------------|--------|------------------|
+| TC_Login_01  | Valid login with credentials | 1. Open the browser<br>2. Navigate to the login page<br>3. Enter valid username and password<br>4. Click on login | Username: user123<br>Password: pass123 | User should be logged in and dashboard displayed | As expected    | Pass   | -                |
+| TC_Login_02  | Invalid login with wrong password | 1. Open the browser<br>2. Navigate to the login page<br>3. Enter valid username and invalid password<br>4. Click on login | Username: user123<br>Password: wrongpass | Error message displayed: "Invalid credentials" | As expected    | Pass   | -                |
+| TC_Login_03  | Blank username and password | 1. Open the browser<br>2. Navigate to the login page<br>3. Leave username and password blank<br>4. Click on login | Username: ""<br>Password: "" | Error message displayed: "Username and password required" | As expected    | Pass   | Validation works |
+| TC_Login_04  | Valid username, blank password | 1. Open the browser<br>2. Navigate to the login page<br>3. Enter valid username and leave password blank<br>4. Click on login | Username: user123<br>Password: "" | Error message displayed: "Password required" | As expected    | Pass   | Validation works |
+| TC_Login_05  | Blank username, valid password | 1. Open the browser<br>2. Navigate to the login page<br>3. Leave username blank and enter valid password<br>4. Click on login | Username: ""<br>Password: pass123 | Error message displayed: "Username required" | As expected    | Pass   | Validation works |
+
+
+#### 📌 LoginTest.java
+```java
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class LoginTestCases {
+    public static void main(String[] args) throws InterruptedException {
+        // Set the path to your WebDriver (update path as per your system)
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+
+        // Test Case 1: Valid Login
+        loginTest(driver, "user123", "pass123", "TC_Login_01");
+
+        // Test Case 2: Invalid password
+        loginTest(driver, "user123", "wrongpass", "TC_Login_02");
+
+        // Test Case 3: Blank username and password
+        loginTest(driver, "", "", "TC_Login_03");
+
+        // Test Case 4: Valid username, blank password
+        loginTest(driver, "user123", "", "TC_Login_04");
+
+        // Test Case 5: Blank username, valid password
+        loginTest(driver, "", "pass123", "TC_Login_05");
+
+        driver.quit();
+    }
+
+    public static void loginTest(WebDriver driver, String username, String password, String testCaseId) throws InterruptedException {
+        driver.get("https://example.com/login"); // replace with your login URL
+        Thread.sleep(1000); // wait for page to load
+
+        // Enter username
+        WebElement usernameField = driver.findElement(By.id("username"));
+        usernameField.clear();
+        usernameField.sendKeys(username);
+
+        // Enter password
+        WebElement passwordField = driver.findElement(By.id("password"));
+        passwordField.clear();
+        passwordField.sendKeys(password);
+
+        // Click login button
+        driver.findElement(By.id("loginBtn")).click(); // change ID as needed
+        Thread.sleep(1000);
+
+        // Validation
+        if (username.equals("user123") && password.equals("pass123")) {
+            boolean isDashboardPresent = driver.getCurrentUrl().contains("dashboard"); // or check title
+            System.out.println(testCaseId + ": " + (isDashboardPresent ? "PASS" : "FAIL"));
+        } else {
+            WebElement error = driver.findElement(By.id("errorMsg")); // change ID to match your app
+            if (error.isDisplayed()) {
+                System.out.println(testCaseId + ": PASS");
+            } else {
+                System.out.println(testCaseId + ": FAIL");
+            }
+        }
+    }
+}
 ```
