@@ -103,6 +103,7 @@ Browser Driver (ChromeDriver, GeckoDriver)
       |
 Browser (Chrome, Firefox)
 ```
+<hr/>
 
 **8. Advantages(✅) & Disadvantaged(❌) of Selenium WebDriver**
 
@@ -132,6 +133,9 @@ Browser (Chrome, Firefox)
 
   ❌ No built-in object repository
 
+<hr/>
+<hr/>
+<hr/>
 
 # **Module-4: Selenium WebDriver**
 
@@ -177,6 +181,7 @@ Selenium WebDriver can be defined in three ways:
 > - Communication Protocol:
 >   - Old: JSON wire protocol
 >   - New (Selenium 4+): W3C protocol
+<hr/>
 
 ## Environment Setup & WebDriver Configuration
 **Two Approaches to Setup:**
@@ -306,6 +311,39 @@ Example:
 - Maven will:
   - **Remove old** version JARs
   - **Download new** version JARs
+<hr/>
 
+## Setting up WebDriver in Eclipse 
 
+**Create a Java Class and Write a Sample Script**
+- Right-click on src/main/java
+ New > Package → Name it com.selenium.test
+- Inside the package, create a new Java Class → TestLaunch
 
+- Sample Code:
+```Java
+package com.selenium.test;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class TestLaunch {
+    public static void main(String[] args) {
+        // Set path to chromedriver (if not in PATH)
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        // Launch browser
+        WebDriver driver = new ChromeDriver();
+
+        // Open website
+        driver.get("https://www.google.com");
+
+        // Print title
+        System.out.println("Page Title: " + driver.getTitle());
+
+        // Close browser
+        driver.quit();
+    }
+}
+
+```
