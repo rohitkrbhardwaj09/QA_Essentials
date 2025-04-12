@@ -5,7 +5,7 @@ The course is structured around several modules, covering essential topics such 
 
 # [Module-1: Overview on Automation & Selenium](Selenium/Notes.md#Module-1)
 
-- Introduction to Automation
+- [Introduction to Automation](Selenium/Notes.md#Introduction-to-Automation)
 
 - Challenges in Manual Testing
 
