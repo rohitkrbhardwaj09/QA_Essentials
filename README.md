@@ -8,9 +8,7 @@ The course is structured around several modules, covering essential topics such 
 - [Introduction to Automation](Selenium/Notes.md#Introduction-to-Automation)
 
 - [Challenges in Manual Testing](Selenium/Notes.md#Challenges-in-Manual-Testing)
-
-- [Challenges in Manual Testing](Selenium/Notes.md#Challenges-in-Manual-Testing)
-  
+   
 - [Overcoming Challenges with Automation](Selenium/Notes.md#Overcoming-Challenges-with-Automation)
   
 - [Importance of Programming in Automation](Selenium/Notes.md#Importance-of-Programming-in-Automation)
@@ -18,6 +16,8 @@ The course is structured around several modules, covering essential topics such 
 - [Introduction to Selenium](Selenium/Notes.md#Introduction-to-Selenium)
   
 - [Selenium Components](Selenium/Notes.md#Selenium-Components)
+
+- [Selenium WebDriver Architecture](Selenium/Notes.md#selenium-webDriver-architecture)
   
 - [Advantages and Disadvantages of Selenium WebDriver](Selenium/Notes.md#Advantages-and-Disadvantages-of-Selenium-WebDriver)
 
@@ -307,17 +307,23 @@ The course is structured around several modules, covering essential topics such 
 
 - [Introduction to WebDriver and Architecture](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
-- Overview of Selenium WebDriver
+- [Overview of Selenium WebDriver](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
-- Architecture of Selenium WebDriver
+- [Architecture of Selenium WebDriver](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
-- Environment Setup & WebDriver Configuration
+- [Environment Setup & WebDriver Configuration](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
-- Setting up WebDriver in Eclipse
+- [Setting up WebDriver in Eclipse](Selenium/Notes.md#setting-up-webdriver-in-eclipse)
 
-- Configuring WebDriver for Different Browsers
+- [Configuring WebDriver for Different Browsers](Selenium/Notes.md#configure-webdriver)
+  - [Setup using WebDriverManager](Selenium/Notes.md#webdrivermanager)
+  - [Chrome Browser](Selenium/Notes.md#chrome) 
+  - [FireFox Browser](Selenium/Notes.md#firefox)  
+  - [Microsoft Edge Browser](Selenium/Notes.md#edge) 
+  - [Safari Browser](Selenium/Notes.md#safari-browser)
+  - [Switch Browser Dynamically](Selenium/Notes.md#switch-browser_dynamically)    
 
-- How to Create Automated Test Case in WebDriver?
+- [How to Create Automated Test Case in WebDriver?](Selenium/Notes.md#automated-test-case)
 
 - Setting Up a Basic Test Case Structure
 
