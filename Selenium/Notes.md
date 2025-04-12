@@ -550,3 +550,141 @@ public class LoginTestCases {
     }
 }
 ```
+
+<hr/>
+
+## **Locating Elements Using HTML Tags and Attributes**
+- Web elements on a page (like textboxes, buttons, links, images) are written using HTML.
+- Each HTML element has a tag name (e.g., input, a, img, select) and attributes (e.g., id, name, class, placeholder).
+- Example:
+```html
+<input type="text" name="search" placeholder="Search here" id="searchBox">
+```
+ From this, we can use attributes like id, name, or even tag name to locate elements.
+
+ 🔍 **Basic Locators in Selenium**
+Selenium provides several built-in locators to find elements:
+## 🔍 Basic Locators in Selenium
+
+Selenium provides several built-in locators to find elements:
+
+| Locator Method        | Description                                                  |
+|-----------------------|--------------------------------------------------------------|
+| `By.id`               | Locates element using the `id` attribute                     |
+| `By.name`             | Locates element using the `name` attribute                   |
+| `By.linkText`         | Locates anchor (`<a>`) elements with exact link text         |
+| `By.partialLinkText`  | Locates anchor elements using partial text                   |
+| `By.tagName`          | Locates element using tag name (e.g., `input`, `img`)        |
+| `By.className`        | Locates using the `class` attribute                          |
+| `By.xpath`            | Locates using XPath expressions                              |
+| `By.cssSelector`      | Locates using CSS selectors                                  |
+
+
+### 🏷️ Name Locator in Selenium
+
+The **Name Locator** is used to identify elements using the `name` attribute of an HTML tag.
+
+#### 📌 Syntax:
+```java
+driver.findElement(By.name("element_name"));
+```
+
+🧠 How it Works:
+Selenium scans the DOM to find an element whose name attribute matches the given value.
+
+✅ Example HTML:
+```HTML
+<input type="text" name="username" />
+```
+
+✅ Example Java Code:
+```Java
+WebElement usernameInput = driver.findElement(By.name("username"));
+usernameInput.sendKeys("testUser");
+```
+
+📝 Notes:
+- It's commonly used for form elements like input fields, radio buttons, and checkboxes.
+- Make sure the name attribute is unique on the page, or it may return the first matching element only.
+
+### 🏷️ ID Locator in Selenium
+
+The **ID Locator** is one of the most preferred and fastest locators in Selenium. It is used to locate elements using the `id` attribute of an HTML element.
+
+#### 📌 Syntax:
+```java
+driver.findElement(By.id("element_id"));
+```
+
+🧠 How it Works:
+Selenium locates the web element that has a matching id attribute value.
+
+✅ Example HTML:
+```html
+<input type="password" id="userPassword" />
+```
+✅ Example Java Code:
+```java
+WebElement passwordInput = driver.findElement(By.id("userPassword"));
+passwordInput.sendKeys("securePass123");
+```
+📝 Notes:
+- The id attribute should be unique on the web page.
+- If multiple elements have the same id, Selenium will interact with the first match.
+- This is generally the most efficient locator strategy.
+
+### 🏷️ LinkText Locator in Selenium
+
+The **LinkText Locator** is used to locate hyperlinks (i.e., `<a>` anchor tags) by matching the exact visible text of the link.
+
+#### 📌 Syntax:
+```java
+driver.findElement(By.linkText("Exact Link Text"));
+```
+
+🧠 How it Works:
+Selenium looks for anchor (<a>) elements that have text content exactly matching the provided string.
+
+✅ Example HTML:
+```html
+<a href="/home">Go to Home</a>
+```
+
+✅ Example Java Code:
+```java
+WebElement homeLink = driver.findElement(By.linkText("Go to Home"));
+homeLink.click();
+```
+
+📝 Notes:
+- Case-sensitive — the link text must match exactly.
+- Only works for <a> tags.
+- Ideal for use when the link text is unique and static.
+
+### 🔗 PartialLinkText Locator in Selenium
+
+The **PartialLinkText Locator** is used to locate hyperlink elements (`<a>` tags) using a portion of the link's visible text.
+
+#### 📌 Syntax:
+```java
+driver.findElement(By.partialLinkText("Partial Text"));
+```
+
+🧠 How it Works:
+Selenium finds an anchor (<a>) element where the text includes the given substring.
+
+✅ Example HTML:
+```html
+<a href="/profile">View Profile Page</a>
+```
+
+✅ Example Java Code:
+```java
+WebElement profileLink = driver.findElement(By.partialLinkText("Profile"));
+profileLink.click();
+```
+
+📝 Notes:
+-Useful when the link text is long or dynamic, and you only need to match a part of it.
+- Only applicable to anchor (<a>) elements.
+- Case-sensitive.
