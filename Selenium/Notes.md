@@ -471,7 +471,7 @@ public class CrossBrowserTest {
 ```
 <hr/>
 
-## How to Create Automated Test Case in WebDriver?
+## **How to Create Automated Test Case in WebDriver?** {#automated-test-case}
 ### Automated Test Case Document
 
 #### Test Scenario: Verify login functionality on the application
