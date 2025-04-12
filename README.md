@@ -3,7 +3,7 @@ Master Selenium Automation Testing with Java from scratch! This comprehensive co
 
 The course is structured around several modules, covering essential topics such as:
 
-# [Module-1: Overview on Automation & Selenium](Notes.md#Module-1)
+# [Module-1: Overview on Automation & Selenium](Selenium/Notes.md#Module-1)
 
 - Introduction to Automation
 
