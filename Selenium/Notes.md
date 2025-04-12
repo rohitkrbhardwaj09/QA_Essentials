@@ -135,7 +135,7 @@ Browser (Chrome, Firefox)
 
 # **Module-4: Selenium WebDriver**
 
-### **1. Introduction to WebDriver and Architecture**
+## **1. Introduction to WebDriver and Architecture**
 
 Selenium WebDriver can be defined in three ways:
 
@@ -177,4 +177,135 @@ Selenium WebDriver can be defined in three ways:
 > - Communication Protocol:
 >   - Old: JSON wire protocol
 >   - New (Selenium 4+): W3C protocol
+
+## Environment Setup & WebDriver Configuration
+**Two Approaches to Setup:**
+- Manual Setup with JAR files
+- Using Maven Project (Recommended)
+
+📌 **1. Manual Setup using JAR Files**
+Step-by-Step Process:
+🔹 a. Download JAR Files
+ - Selenium WebDriver consists of multiple classes, interfaces, and methods.
+ - All these components are bundled into a .jar (Java ARchive) file.
+ - Visit: https://www.selenium.dev
+ - Navigate to Downloads section.
+ - Choose Java as the language.
+ - Download the latest version (e.g., 4.18.1) zip file.
+
+🔹 b. Extract ZIP File
+ - Extract the zip file to get a folder containing:
+ - Selenium jar files
+ - lib folder (contains dependency jars)
+
+🔹 c. Create Java Project in Eclipse
+ - Open Eclipse.
+ - Create a new workspace (or use existing one).
+ - Create a New Java Project:
+ - Project Name: WebDriverProject
+ - Uncheck the module-info.java option.
+ - Finish setup.
+
+🔹 d. Attach JARs to Java Project
+ - Right-click on the project > Build Path > Configure Build Path.
+ - Go to Libraries tab > Add External JARs.
+   - Select:
+     - All main Selenium jars.
+     - All jars from the lib subfolder.
+     - Click Apply and Close.
+
+⚠️ Drawbacks of Manual Setup:
+- Fully Manual Process:
+  - Manually download jars.
+  - Manually update if a new version is released.
+- Maintenance Overhead:
+  - Old jars must be removed and new ones added manually.
+  - Not suitable for real-time projects.
+
+🛠️ **2. Maven Project Setup (Preferred Approach)**
+
+📝 Key Points:
+- Maven is a build tool, not an IDE.
+- Automates the download and update of dependencies using pom.xml.
+- Preferred in real-time projects and CI/CD pipelines.
+
+**Creating a Maven Project in Eclipse**
+1. Open Eclipse IDE
+2. Create a New Maven Project
+  - Navigate to File > New > Project...
+  - In the dialog, expand Maven and select Maven Project, then click Next.
+3. Configure Project Settings
+  - Choose the workspace location or accept the default.
+  - Click Next to proceed.
+4. Select an Archetype
+  - Choose an archetype, such as maven-archetype-quickstart, and click Next.​
+5. Define Project Coordinates
+  - Group Id: e.g., com.example​
+  - Artifact Id: e.g., my-maven-app​
+  - Version: e.g., 1.0-SNAPSHOT​
+- Click Finish to generate the project.
+6. Project Structure
+Eclipse will create a project with the following structure:
+```plaintext
+my-maven-app/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   └── test/
+│       └── java/
+└── pom.xml
+```
+7. Add Selenium WebDriver dependency in pom.xml
+- Search for Dependency:
+  - Go to mvnrepository.com
+  - Search for: selenium java
+  - Click on the latest version (e.g., 4.18.1)
+- Copy Dependency XML:
+```xml
+<dependency>
+  <groupId>org.seleniumhq.selenium</groupId>
+  <artifactId>selenium-java</artifactId>
+  <version>4.18.1</version>
+</dependency>
+```
+- Paste in pom.xml:
+```xml
+<dependencies>
+  <!-- All project dependencies go here -->
+  <dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.18.1</version>
+  </dependency>
+</dependencies>
+```
+- ctrl+s (save the file)
+8. Update the Maven Project:
+  - Right-click the project in Eclipse
+  - Go to Maven > Update Project
+  - Enable Force Update of Snapshots/Releases
+  - Click OK
+
+ **🧙 What Happens Next?**
+ - Maven downloads all required JARs based on the added dependency
+ - Adds them under Maven Dependencies in your project
+ - No manual download or setup required
+
+🧪 **Result**
+- Project is now ready with Selenium WebDriver setup.
+- All JAR files are linked automatically.
+
+**🔁 Upgrading a Dependency**
+- Go to pom.xml and change the version number
+Example:
+```xml
+<version>4.19.0</version>
+```
+- Update the project again (Right-click > Maven > Update Project)
+
+- Maven will:
+  - **Remove old** version JARs
+  - **Download new** version JARs
+
+
 
