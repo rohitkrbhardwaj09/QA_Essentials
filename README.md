@@ -7,19 +7,19 @@ The course is structured around several modules, covering essential topics such 
 
 - [Introduction to Automation](Selenium/Notes.md#Introduction-to-Automation)
 
-- Challenges in Manual Testing
+- [Challenges in Manual Testing](Selenium/Notes.md#Challenges-in-Manual-Testing)
 
-- Overcoming Challenges with Automation
-
-- Importance of Programming in Automation
-
-- Introduction to Selenium
-
-- Selenium Components
-
-- Advantages and Disadvantages of Selenium WebDriver
-
-
+- [Challenges in Manual Testing](Selenium/Notes.md#Challenges-in-Manual-Testing)
+  
+- [Overcoming Challenges with Automation](Selenium/Notes.md#Overcoming-Challenges-with-Automation)
+  
+- [Importance of Programming in Automation](Selenium/Notes.md#Importance-of-Programming-in-Automation)
+  
+- [Introduction to Selenium](Selenium/Notes.md#Introduction-to-Selenium)
+  
+- [Selenium Components](Selenium/Notes.md#Selenium-Components)
+  
+- [Advantages and Disadvantages of Selenium WebDriver](Selenium/Notes.md#Advantages-and-Disadvantages-of-Selenium-WebDriver)
 
 # Module-2: Java Programming for Selenium
 
