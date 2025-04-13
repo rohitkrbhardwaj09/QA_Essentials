@@ -741,8 +741,19 @@ WebDriver provides several **built-in methods** to control the browser and inter
 | `switchTo().alert()`                   | Switches to the alert box                   |
 
 ---
+### 🔹 4. Common Conditional Methods
 
-### 🔹 4. WebElement Interaction Methods
+These methods return `true` or `false` and are used to verify the state of a web element before interacting with it.
+
+| Method         | Description                                                   |
+|----------------|---------------------------------------------------------------|
+| `isDisplayed()`| Checks if the element is **visible** on the page              |
+| `isEnabled()`  | Checks if the element is **enabled** (interactable)           |
+| `isSelected()` | Checks if the element is **selected** (checkboxes/radio)      |
+
+---
+
+### 🔹 5. WebElement Interaction Methods
 
 | Method                                  | Description                                     |
 |-----------------------------------------|-------------------------------------------------|
@@ -989,34 +1000,152 @@ public class NavigationMethod{
 }
 ```
 ---
-## Window and Frame Handling
-Selenium WebDriver allows us to handle **multiple browser windows/tabs** and **HTML frames/iframes**.
+
+### 🔹 3. Window and Frame Handling
+
+| Method                                 | Description                                 |
+|----------------------------------------|---------------------------------------------|
+| `getWindowHandle()`                    | Returns current window handle               |
+| `getWindowHandles()`                   | Returns set of all open windows             |
+| `switchTo().window(String handle)`     | Switches control to the specified window    |
+| `switchTo().frame(int/index/name)`     | Switches to a specific frame                |
+| `switchTo().defaultContent()`          | Switches back to the main content           |
+| `switchTo().alert()`                   | Switches to the alert box                   |
+
+### getWindowHandle()
+The `getWindowHandle()` method is used to retrieve the **unique identifier (handle)** of the current browser window or tab.
+
+🧠 **Key Points**
+- Every browser window/tab opened by the WebDriver has a unique string handle.
+- This handle is used to switch between windows or tabs.
+- It returns a `String`.
+
+**Example**
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WindowHandle {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		
+		driver.get("https://www.google.co.in");
+		String handle = driver.getWindowHandle();
+		System.out.println("Window handle is: " +handle);
+
+		driver.quit();
+	}
+
+}
+```
+**Output: **
+> ![image](https://github.com/user-attachments/assets/7c7e7001-bd68-4582-8d73-b0bad13d3b3c)
+
+### getWindowHandles()
+The `getWindowHandles()` method is used to retrieve a **set of all window handles** opened by the WebDriver session.
+
+🧠 **Key Points**
+- It returns a `Set<String>` containing **all open window/tab handles**.
+- These handles can be used to **switch between multiple windows or tabs**.
+- Useful when handling popups, new tabs, or windows opened via automation.
+
+**Example**
+```java
+package WebDriverMethods;
+
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WindowHandle {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		Thread.sleep(5000); //This is to wait for complete load
+		driver.findElement(By.linkText("OrangeHRM, Inc")).click();
+		
+		Set<String> handle = driver.getWindowHandles();
+		for (String string : handle) {
+			System.out.println(string);
+		}
+		
+		driver.quit();
+	}
+
+}
+```
+**Output:**
+> ![image](https://github.com/user-attachments/assets/b3e8ba4f-d375-4408-965a-bd0081274c84)
+
+### switchTo().window(String handle)
+Used to **switch the WebDriver context** from the current window to another window or tab using its **window handle**.
+
+**Example**
+```java
+driver.switchTo().window("windowHandle");
+```
 
 ---
+## Conditional Methods
 
-### 🔳 Handling Multiple Windows (Tabs)
+These methods return `true` or `false` and are used to verify the state of a web element before interacting with it.
 
-When a web application opens a new window or tab, you need to switch the driver's context to interact with it.
+| Method         | Description                                                   |
+|----------------|---------------------------------------------------------------|
+| `isDisplayed()`| Checks if the element is **visible** on the page              |
+| `isEnabled()`  | Checks if the element is **enabled** (interactable)           |
+| `isSelected()` | Checks if the element is **selected** (checkboxes/radio)      |
 
-#### 🔹 Steps:
-1. Get the main window handle
-2. Get all window handles
-3. Switch to the required window using `driver.switchTo().window()`
 
-#### ✅ Example:
+### isDisplayed() 
+Returns **true** if the element is visible in the DOM and displayed on screen else returns **false**.
+
+Exapmple: We need to get the status of logo element of the webpage ![image](https://github.com/user-attachments/assets/8726f9de-de99-496e-bee1-cef215b12a44)
 
 ```java
-String mainWindow = driver.getWindowHandle();
+package WebDriverMethods;
 
-Set<String> allWindows = driver.getWindowHandles();
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-for (String handle : allWindows) {
-    if (!handle.equals(mainWindow)) {
-        driver.switchTo().window(handle);
-        // Perform actions in new window
-        driver.close(); // Optional: close the new window
-    }
+public class ConditionalMethod {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		//web page may take some time to load the webpage, in that case we might get an error
+		// org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"css selector","selector":"img[alt='company-branding']"}
+		
+		//so to prevent from that condition, we should use sleep
+		Thread.sleep(3000);
+		
+		WebElement logo = driver.findElement(By.cssSelector("img[alt='company-branding']"));
+		if(logo.isDisplayed()) {
+			System.out.println("Logo is displaying");
+		}else {
+			System.out.println("Logo is not displaying");
+		}
+		driver.quit();
+	}
+
 }
-
-driver.switchTo().window(mainWindow); // Switch back to main
-
+```
+**Output:**
+> ![image](https://github.com/user-attachments/assets/5c48b4a1-84e2-4dc1-bf13-ffad2aa687fd)
