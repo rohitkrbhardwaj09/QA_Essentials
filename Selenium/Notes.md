@@ -759,18 +759,120 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 ---
 
-### 🧪 Example Usage
+# 🧪 Example Usage
+
+## 🔹 1. Browser Control Methods
+
+### get(String url)
 
 ```java
-WebDriver driver = new ChromeDriver();
-driver.get("https://example.com");
+package WebDriverMethods;
 
-WebElement searchBox = driver.findElement(By.id("search"));
-searchBox.sendKeys("Selenium WebDriver");
-searchBox.submit();
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-String title = driver.getTitle();
-System.out.println("Page Title: " + title);
-
-driver.quit();
+public class BrowserControlMethods {
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		//It will maximize the window sizing
+		driver.manage().window().maximize();
+		
+		//get() --> Opens the given URL in the browser
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		
+		driver.quit();
+	}
+}
 ```
+**Output: **
+> ![image](https://github.com/user-attachments/assets/50489f74-f9e4-489e-b7cb-42128e642767)
+
+### getTitle()
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrowserControlMethods {
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		//It will maximize the window sizing
+		driver.manage().window().maximize();
+		
+		//get() --> Opens the given URL in the browser
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		
+		//Returns the title of the current page 
+		String title = driver.getTitle();
+		System.out.println(title);
+		
+		driver.quit();
+	}
+}
+```
+**Output: **
+> ![image](https://github.com/user-attachments/assets/22cda751-1bc8-46b9-89f3-aeb084440892)
+
+### getCurrentUrl() 
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrowserControlMethods {
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		// It will maximize the window sizing
+		driver.manage().window().maximize();
+		
+		// get() --> Opens the given URL in the browser
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		
+		// Returns the current URL
+		String currentURL = driver.getCurrentUrl();
+		System.out.println(currentURL);
+		
+		driver.quit();
+	}
+}
+```
+**Output: **
+> ![image](https://github.com/user-attachments/assets/7489b8d1-5708-4b17-b76d-01535abb0d52)
+
+
+### getPageSource()
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrowserControlMethods {
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		// It will maximize the window sizing
+		driver.manage().window().maximize();
+		
+		// get() --> Opens the given URL in the browser
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		
+		// Returns the page source of the current page
+		String pg_src = driver.getPageSource();
+		System.out.println(pg_src);
+		
+		driver.quit();
+	}
+}
+```
+**Output:**
+> ![image](https://github.com/user-attachments/assets/e3c59352-387a-4ec1-923a-b184f7b3603a)
