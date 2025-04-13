@@ -876,3 +876,147 @@ public class BrowserControlMethods {
 ```
 **Output:**
 > ![image](https://github.com/user-attachments/assets/e3c59352-387a-4ec1-923a-b184f7b3603a)
+
+### close()
+- It only closes the focused window (the one WebDriver is currently controlling).
+- If there is only one browser window, it will behave like quit(), closing the session.
+- If there are multiple tabs/windows, it will close the one in focus and keep the WebDriver session alive.
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrowserControlMethods {
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://example.com");
+
+		// Open a new tab
+		driver.switchTo().newWindow(WindowType.TAB);
+		driver.get("https://google.com");
+
+		// Close the current tab (Google)
+		driver.close();
+
+		// WebDriver still running, previous tab (example.com) remains
+	}
+}
+
+```
+**Output:** 
+> Before: ![image](https://github.com/user-attachments/assets/268d70dd-a571-4009-87dc-ae5af9ed64e7)
+> After: ![image](https://github.com/user-attachments/assets/f48c8af4-8ff9-4a6b-bae7-1e97183d7a78)
+
+### quit():
+
+- The `driver.quit()` method is used to **close all browser windows** and **safely end the WebDriver session**.
+- Completely shuts down the WebDriver instance.
+- Closes all open tabs/windows that were opened during the session.Frees up system resources used by the browser driver.
+- Ends the driver-server communication.
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrowserControlMethods {
+	public static void main(String[] args) {	
+
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://example.com");
+
+		// Open another window
+		driver.switchTo().newWindow(WindowType.WINDOW);
+		driver.get("https://google.com");
+
+		// Quit all windows and end the session
+		driver.quit();
+
+
+	}
+}
+```
+
+### close() vs quit()
+---
+|Method | Close Current Window | Closes All Window | Ends WebDriver Session | 
+|-------|----------------------|-------------------|------------------------|
+| close() | ✅ Yes | ❌ No |	❌ No |
+| quit() | ✅ Yes | ✅ Yes | ✅ Yes |
+
+<hr/>
+
+## Navigational Methods
+Method | Description
+--- | ---
+navigate().to(String url) | Opens the specified URL (similar to driver.get())
+navigate().back() | Simulates the browser's Back button
+navigate().forward() | Simulates the browser's Forward button
+navigate().refresh() | Refreshes the current web page
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class NavigationMethod{
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        
+        driver.manage().window().maximize();
+
+        // Navigate to the first URL
+        driver.navigate().to("https://www.amazon.in");
+
+        // Navigate to another URL
+        driver.navigate().to("https://www.flipkart.com");
+
+        // Navigate back
+        driver.navigate().back();
+
+        // Navigate forward
+        driver.navigate().forward();
+
+        // Refresh the page
+        driver.navigate().refresh();
+
+        driver.quit();
+    }
+}
+```
+---
+## Window and Frame Handling
+Selenium WebDriver allows us to handle **multiple browser windows/tabs** and **HTML frames/iframes**.
+
+---
+
+### 🔳 Handling Multiple Windows (Tabs)
+
+When a web application opens a new window or tab, you need to switch the driver's context to interact with it.
+
+#### 🔹 Steps:
+1. Get the main window handle
+2. Get all window handles
+3. Switch to the required window using `driver.switchTo().window()`
+
+#### ✅ Example:
+
+```java
+String mainWindow = driver.getWindowHandle();
+
+Set<String> allWindows = driver.getWindowHandles();
+
+for (String handle : allWindows) {
+    if (!handle.equals(mainWindow)) {
+        driver.switchTo().window(handle);
+        // Perform actions in new window
+        driver.close(); // Optional: close the new window
+    }
+}
+
+driver.switchTo().window(mainWindow); // Switch back to main
+
