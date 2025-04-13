@@ -1149,3 +1149,81 @@ public class ConditionalMethod {
 ```
 **Output:**
 > ![image](https://github.com/user-attachments/assets/5c48b4a1-84e2-4dc1-bf13-ffad2aa687fd)
+
+
+### isEnabled(): 
+Returns true if the element is enabled and interactable.
+
+**Example:** We need to check google home page search is enabled/interactable or not
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class ConditionalMethod {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		WebDriver driver = new ChromeDriver();		
+		driver.manage().window().maximize();
+		
+		driver.get("https://www.google.co.in");
+		Thread.sleep(3000);
+		
+		WebElement ele = driver.findElement(By.xpath("//textarea[@id='APjFqb']"));
+		if(ele.isEnabled()) {
+			System.out.println("Enabled");
+		}else {
+			System.out.println("Not enabled");
+		}	
+		driver.quit();
+	}
+}
+```
+**Output:**
+> ![image](https://github.com/user-attachments/assets/f7ab5628-1254-44af-9aea-4a788373555e)
+
+
+### isSelected()
+Returns **true** if the checkbox/radio button is selected.
+```java
+package WebDriverMethods;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class ConditionalMethod {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		Thread.sleep(3000);
+		
+		WebElement ele = driver.findElement(By.xpath("//input[@value='radio2']"));
+		System.out.println("Before Selection: ..................");
+		if(ele.isSelected()) {
+			System.out.println("Selected");
+		}else {
+			System.out.println("Not Selected");
+		}
+		
+		ele.click();
+		System.out.println("After Selection: ................");
+		if(ele.isSelected()) {
+			System.out.println("Selected");
+		}else {
+			System.out.println("Not Selected");
+		}			
+		driver.quit();
+	}
+}
+```
+**Output:**
+> ![image](https://github.com/user-attachments/assets/e40f0b01-6797-4ba7-8bfe-def2f1959558)
+--- 
