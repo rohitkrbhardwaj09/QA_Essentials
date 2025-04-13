@@ -688,3 +688,89 @@ profileLink.click();
 -Useful when the link text is long or dynamic, and you only need to match a part of it.
 - Only applicable to anchor (<a>) elements.
 - Case-sensitive.
+
+<hr/>
+# CSS Selector
+<hr/>
+# XPath
+<hr/>
+# XPath Axes
+<hr/>
+
+# WebDriver Methods
+
+### 🚗 WebDriver Methods in Selenium
+
+WebDriver provides several **built-in methods** to control the browser and interact with web elements. These methods are part of the `WebDriver` interface and its associated classes like `WebElement`, `Options`, and `Navigation`.
+
+---
+
+### 🔹 1. Browser Control Methods
+
+| Method                          | Description                                      |
+|--------------------------------|--------------------------------------------------|
+| `get(String url)`              | Opens the given URL in the browser              |
+| `getTitle()`                   | Returns the title of the current page           |
+| `getCurrentUrl()`              | Returns the current URL                         |
+| `getPageSource()`              | Returns the page source of the current page     |
+| `close()`                      | Closes the current browser window               |
+| `quit()`                       | Quits the entire browser session                |
+
+---
+
+### 🔹 2. Navigation Methods
+
+| Method                          | Description                                      |
+|--------------------------------|--------------------------------------------------|
+| `navigate().to(String url)`    | Navigates to the specified URL                  |
+| `navigate().back()`            | Navigates one step back in the browser history  |
+| `navigate().forward()`         | Navigates one step forward in the browser       |
+| `navigate().refresh()`         | Refreshes the current page                      |
+
+---
+
+### 🔹 3. Window and Frame Handling
+
+| Method                                 | Description                                 |
+|----------------------------------------|---------------------------------------------|
+| `getWindowHandle()`                    | Returns current window handle               |
+| `getWindowHandles()`                   | Returns set of all open windows             |
+| `switchTo().window(String handle)`     | Switches control to the specified window    |
+| `switchTo().frame(int/index/name)`     | Switches to a specific frame                |
+| `switchTo().defaultContent()`          | Switches back to the main content           |
+| `switchTo().alert()`                   | Switches to the alert box                   |
+
+---
+
+### 🔹 4. WebElement Interaction Methods
+
+| Method                                  | Description                                     |
+|-----------------------------------------|-------------------------------------------------|
+| `findElement(By by)`                    | Finds a single web element                     |
+| `findElements(By by)`                   | Finds a list of matching web elements          |
+| `click()`                               | Clicks on the element                          |
+| `sendKeys(String input)`                | Enters text into the input field               |
+| `clear()`                               | Clears the input field                         |
+| `getText()`                             | Returns the visible text of the element        |
+| `getAttribute(String name)`             | Returns the attribute value                    |
+| `isDisplayed()`                         | Checks if the element is visible               |
+| `isEnabled()`                           | Checks if the element is enabled               |
+| `isSelected()`                          | Checks if the element is selected              |
+
+---
+
+### 🧪 Example Usage
+
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://example.com");
+
+WebElement searchBox = driver.findElement(By.id("search"));
+searchBox.sendKeys("Selenium WebDriver");
+searchBox.submit();
+
+String title = driver.getTitle();
+System.out.println("Page Title: " + title);
+
+driver.quit();
+```
