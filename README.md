@@ -5,16 +5,16 @@ The course is structured around several modules, covering essential topics such 
 
 # [Module-1: Overview on Automation & Selenium](Selenium/Notes.md#Module-1)
 
-- [Introduction to Automation](Selenium/Notes.md#Introduction-to-Automation)
+- [Introduction to Automation](../Selenium/Notes.md#introduction-to-automation)
 
-- [Challenges in Manual Testing](Selenium/Notes.md#Challenges-in-Manual-Testing)
-   
-- [Overcoming Challenges with Automation](Selenium/Notes.md#Overcoming-Challenges-with-Automation)
-  
-- [Importance of Programming in Automation](Selenium/Notes.md#Importance-of-Programming-in-Automation)
-  
-- [Introduction to Selenium](Selenium/Notes.md#Introduction-to-Selenium)
-  
+- [Challenges in Manual Testing](../Selenium/Notes.md#challenges-in-manual-testing)
+
+- [Overcoming Challenges with Automation](../Selenium/Notes.md#overcoming-challenges-with-automation)
+
+- [Importance of Programming in Automation](../Selenium/Notes.md#importance-of-programming-in-automation)
+
+- [Introduction to Selenium](../Selenium/Notes.md#introduction-to-selenium)
+
 - [Selenium Components](Selenium/Notes.md#Selenium-Components)
 
 - [Selenium WebDriver Architecture](Selenium/Notes.md#selenium-webDriver-architecture)
