@@ -385,7 +385,7 @@ The course is structured around several modules, covering essential topics such 
 
 - Enable/Disable Status of Web Elements
 
-- [Waits Method](Selenium/Notes.md#waits-methods)
+- <a href="Selenium/Notes.md#Waits-Method">Waits Method</a>
 
 - Implicit Waits
 
