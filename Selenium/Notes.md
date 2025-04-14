@@ -1,13 +1,13 @@
 -# Module-1: Overview on Automation & Selenium
 
-**1. Introduction to Automation** {#Introduction-to-Automation}
+## Introduction to Automation
 
   - **Automation Testing**: Using tools/scripts to execute test cases automatically.
   - **Goal**: Increase test efficiency, coverage, and reduce human errors.
   - **Used For**: Regression, smoke, sanity, load testing, etc.
 <hr/>
 
-**2. Challenges in Manual Testing** {#Challenges-in-Manual-Testing}
+## Challenges in Manual Testing
 
  - Time-consuming & repetitive.
  - Error-prone (human mistakes).
@@ -16,7 +16,7 @@
  - Limited test coverage under tight deadlines.
 <hr/>
 
-**3. Overcoming Challenges with Automation** {#Overcoming-Challenges-with-Automation}
+## Overcoming Challenges with Automation
 
 <table>
   <tr>
@@ -42,7 +42,7 @@
 </table>
 <hr/>
 
-**4. Importance of Programming in Automation** {#Importance-of-Programming-in-Automation}
+## Importance of Programming in Automation
 
  - Required to write test logic, loops, conditions.
  - Enables:
@@ -1233,7 +1233,7 @@ public class ConditionalMethod {
 
 ---
 
-### 6. Wait Methods
+### 6. Waits Method {#Waits-Method}
 
 **Q. How does selenium solves synchronization issue?**
 **Q. What is Synchronization in Selenium??**
