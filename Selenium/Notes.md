@@ -1383,3 +1383,201 @@ public class WaitMethod {
 	}
 }
 ```
+📌 Notes: Best Practices for Using Explicit Wait in Selenium
+✅ Key Concepts:
+- Explicit Wait is used to wait for a specific condition before proceeding with the next action in the script.
+- It's often used to ensure an element is present, visible, or clickable before interacting with it.
+
+💡 Best Practice Summary:
+✔️ Apply Explicit Wait for One Element Per Page:
+	- If you're on the same page, applying an explicit wait for just one key element is sufficient.
+	- Once that one element is visible/loaded, it’s usually safe to assume that the rest of the elements on the page are also loaded.
+
+✔️ Use One Explicit Wait per Page (During Navigation):
+	-When navigating between multiple pages, apply explicit wait for one important element on each new page.
+ 	Example:
+	Page 1 → Wait for Username field
+	Page 2 → Wait for Dashboard header
+	Page 3 → Wait for Form title
+
+❌ What to Avoid:
+- Do not apply explicit wait for every element (like all input boxes, buttons, checkboxes) on the page.
+- It is redundant, tedious, and not necessary.
+- Avoid overusing wait statements for elements on the same page.
+
+🔁 In Case of Page Transitions:
+- After clicking a button or submitting a form that redirects to a new page,
+- Use explicit wait again for one element that confirms the new page has loaded.
+```java
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class PageTransitionWaitExample {
+
+    public static void main(String[] args) {
+        
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Step 1: Open login page
+        driver.get("https://opensource-demo.orangehrmlive.com/");
+        driver.manage().window().maximize();
+
+        // Step 2: Wait for username field and login
+        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
+        username.sendKeys("Admin");
+
+        WebElement password = driver.findElement(By.name("password"));
+        password.sendKeys("admin123");
+
+        WebElement loginButton = driver.findElement(By.tagName("button"));
+        loginButton.click();
+
+        // Step 3: After login, wait for an element on the next page (Dashboard)
+        WebElement dashboard = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h6[text()='Dashboard']")));
+        
+        System.out.println("Dashboard loaded successfully!");
+
+        driver.quit();
+    }
+}
+```
+
+
+# ⏳ Selenium Explicit Wait Conditions
+
+Explicit Wait in Selenium waits for a certain condition to be true before proceeding. Use it to synchronize your script with the webpage's behavior.
+
+---
+
+## 📌 1. visibilityOfElementLocated(By locator)
+- **Use when**: You want to wait until the element is present in the DOM **and** is visible on the page.
+- ✅ Ideal for: Input fields, buttons before clicking or typing.
+
+```java
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
+```
+
+---
+
+## 📌 2. elementToBeClickable(By locator)
+- **Use when**: You need the element to be **visible and enabled** so it can be clicked.
+- ✅ Ideal for: Buttons, links, checkboxes.
+
+```java
+wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
+```
+
+---
+
+## 📌 3. presenceOfElementLocated(By locator)
+- **Use when**: You only need the element to be present in the DOM (even if hidden).
+- ✅ Ideal for: Background validation, AJAX-loaded data not immediately visible.
+
+```java
+wait.until(ExpectedConditions.presenceOfElementLocated(By.name("hiddenElement")));
+```
+
+---
+
+## 📌 4. titleIs(String title)
+- **Use when**: You are waiting for the page title to exactly match the expected title.
+- ✅ Ideal for: Confirming successful page navigation.
+
+```java
+wait.until(ExpectedConditions.titleIs("Dashboard - HRM"));
+```
+
+---
+
+## 📌 5. titleContains(String partialTitle)
+- **Use when**: The title is dynamic or contains expected keywords.
+- ✅ Ideal for: Dynamic page transitions.
+
+```java
+wait.until(ExpectedConditions.titleContains("Dashboard"));
+```
+
+---
+
+## 📌 6. urlToBe(String url)
+- **Use when**: You expect to be navigated to an exact URL.
+- ✅ Ideal for: Navigation testing.
+
+```java
+wait.until(ExpectedConditions.urlToBe("https://example.com/home"));
+```
+
+---
+
+## 📌 7. urlContains(String partialUrl)
+- **Use when**: The URL contains certain expected text.
+- ✅ Ideal for: Redirects, login success checks.
+
+```java
+wait.until(ExpectedConditions.urlContains("dashboard"));
+```
+
+---
+
+## 📌 8. alertIsPresent()
+- **Use when**: You are waiting for a JavaScript alert to appear.
+- ✅ Ideal for: Form validations, popups, confirm boxes.
+
+```java
+wait.until(ExpectedConditions.alertIsPresent());
+```
+
+---
+
+## 📌 9. invisibilityOfElementLocated(By locator)
+- **Use when**: You need an element to disappear before moving forward.
+- ✅ Ideal for: Loading spinners, success messages.
+
+```java
+wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loadingSpinner")));
+```
+
+---
+
+## 📌 10. textToBePresentInElementLocated(By locator, String text)
+- **Use when**: You want to wait until a specific text appears in an element.
+- ✅ Ideal for: Status messages, dynamic content.
+
+```java
+wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("status"), "Success"));
+```
+
+---
+
+## 📌 11. numberOfElementsToBe(By locator, int number)
+- **Use when**: You are waiting for a specific number of matching elements.
+- ✅ Ideal for: Tables, lists, search results.
+
+```java
+wait.until(ExpectedConditions.numberOfElementsToBe(By.className("rowItem"), 5));
+```
+
+---
+
+## 📌 12. frameToBeAvailableAndSwitchToIt(By locator)
+- **Use when**: You need to wait for an iframe to load, then switch to it.
+- ✅ Ideal for: iframe-based applications.
+
+```java
+wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("frame1")));
+```
+
+---
+
+# ✅ Tips:
+- Always use `visibilityOfElementLocated` or `elementToBeClickable` for user interactions.
+- Avoid using `Thread.sleep()` – it waits blindly.
+- Explicit waits solve **synchronization issues** effectively.
+
+---
