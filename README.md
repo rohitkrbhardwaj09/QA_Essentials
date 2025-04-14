@@ -385,7 +385,7 @@ The course is structured around several modules, covering essential topics such 
 
 - Enable/Disable Status of Web Elements
 
-- Waits
+- [Waits Method](#waits-methods)
 
 - Implicit Waits
 
