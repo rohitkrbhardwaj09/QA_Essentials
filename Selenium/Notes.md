@@ -767,8 +767,9 @@ These methods return `true` or `false` and are used to verify the state of a web
 | `isDisplayed()`                         | Checks if the element is visible               |
 | `isEnabled()`                           | Checks if the element is enabled               |
 | `isSelected()`                          | Checks if the element is selected              |
-
 ---
+
+### 🔹6. Wait Methods
 
 # 🧪 Example Usage
 
@@ -1227,3 +1228,158 @@ public class ConditionalMethod {
 **Output:**
 > ![image](https://github.com/user-attachments/assets/e40f0b01-6797-4ba7-8bfe-def2f1959558)
 --- 
+
+---
+
+---
+
+### 6. Wait Methods
+
+**Q. How does selenium solves synchronization issue?**
+**Q. What is Synchronization in Selenium??**
+
+**Ans.** Synchronization in Selenium means **matching the speed of the Selenium script execution with the speed of the web application (AUT)**.
+>	In simple terms:
+>	**“Your script should wait just enough for elements to load, so it doesn't fail trying to interact with elements that aren't yet available.”**
+
+=> **Without Synchronization:**
+- Script may try to click or type on elements that aren’t yet visible or loaded.
+- Causes NoSuchElementException, ElementNotInteractableException, etc.
+- Example failure scenario:
+```java
+> driver.findElement(By.id("loginBtn")).click(); // Fails if button hasn’t loaded yet
+```
+==> It might through an exception saying
+	- **NoSuchElementException()**
+ 	- **ElementNotFound()**
+
+#### => **Thread.sleep()**
+>	`Thread.sleep()` is a Java method that pauses the execution of your script for a specific amount of time — no matter what.
+
+✅ Syntax:
+```java
+Thread.sleep(3000); // pauses for 3 seconds (3000 milliseconds)
+```
+
+**It’s like saying:**
+> _“Stop everything and wait for 3 seconds, even if the element is already there.”_
+
+⚠️ **Why Thread.sleep() is NOT recommended in Selenium?**
+🚫 Problem	|	🔎 Explanation
+---	|	---------------
+⌛ Fixed Wait	|	It always waits the full time, even if the element loads earlier.
+🐌 Slows Down Tests	|	Unnecessarily increases test execution time.
+❌ No Condition Check	|	It doesn't check if the element is available or ready.
+📉 Poor Reliability	|	Can fail if the page loads slower than the sleep time.
+
+### 🕒 **_Wait Methods in Selenium WebDriver_**
+
+In Selenium, **waits** are used to pause execution until a certain condition is met or until a specified time has elapsed. They help in handling dynamic web pages where elements take time to load.
+
+### 🔸 1. Implicit Wait
+
+#### ✅ Description:
+Tells WebDriver to wait for a certain amount of time when trying to find an element if it is not immediately available.
+
+### 📌 Syntax:
+```java
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+```
+
+| **Advantages** |
+
+1) Single time/One Statement		
+2) It will not wait till maximum time if the element is available
+3) Aplicable for all the elements
+4) Easy to use
+
+ | **Disadvantage** |
+ 1) If the time is not sufficient the you will get exception
+
+**Example :**
+```java
+package WebDriverMethods;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WaitMethod {
+
+	public static void main(String[] args) {
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		driver.manage().window().maximize();
+		
+		driver.findElement(By.xpath("//input[@placeholder='Username']")).sendKeys("Admin");
+		
+		driver.quit();
+	}
+}
+```
+
+**Interview Ques** : What is the default timeout of implicit wait?
+**Answer**: 0 sec
+
+---
+
+### 🔸** 2. Explicit Wait** (_Recommonded_)
+
+#### ✅ Description:
+Waits for a certain condition to occur before proceeding further in the code.
+
+📌 Syntax: 
+```java
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("elementId")));
+```
+
+- Conditional based, it will not work more effectively.
+- finding element is inclusive
+- it will wait for condition to be true, then consider the time
+- We need to write multiple statements for multiple elements
+
+**Example:**
+```java
+package WebDriverMethods;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class WaitMethod {
+
+	public static void main(String[] args) {
+
+		WebDriver driver = new ChromeDriver();
+		WebDriverWait waitt = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
+		
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		driver.manage().window().maximize();
+		
+		// usage of explicit wait
+		WebElement username = waitt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Username']")));
+		username.sendKeys("Admin");
+		
+		//before performing the action, we are waiting for the element to load then performing the action
+		WebElement password = waitt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Password']")));
+		password.sendKeys("admin123");
+			
+		WebElement loginButton = waitt.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Login']")));
+		loginButton.click();
+		
+		driver.quit();
+	}
+}
+```
