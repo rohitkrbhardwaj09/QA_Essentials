@@ -1,4 +1,4 @@
--# Module-1: Overview on Automation & Selenium
+# Module-1: Overview on Automation & Selenium
 
 ## Introduction to Automation
 
@@ -58,14 +58,14 @@
   ```
 <hr/>
 
-**5. Introduction to Selenium** {#Introduction-to-Selenium}
+## Introduction to Selenium 
 
  - Selenium is an open-source automation tool for web applications only.
  - Supports multiple browsers and languages.
  - Does not support desktop or mobile apps directly.
 <hr/>
 
-**6. Selenium Components** {#Selenium-Components}
+## Selenium Components
 
 📦 Selenium Suite:
 <table>
@@ -92,7 +92,7 @@
 </table>
 <hr/>
 
-**7. Selenium WebDriver Architecture**
+## Selenium WebDriver Architecture 
 
 ```plaintext
 Test Script (Java)
@@ -105,7 +105,7 @@ Browser (Chrome, Firefox)
 ```
 <hr/>
 
-**8. Advantages(✅) & Disadvantaged(❌) of Selenium WebDriver**  {#Advantages-and-Disadvantages-of-Selenium-WebDriver}
+## Advantages and Disadvantaged of Selenium WebDriver
 
 **--Advantages of Selenium WebDriver--**
 
@@ -133,13 +133,12 @@ Browser (Chrome, Firefox)
 
   ❌ No built-in object repository
 
-<hr/>
-<hr/>
-<hr/>
+---
+---
 
-# **Module-4: Selenium WebDriver** {#Introduction-to-WebDriver-and-Architecture}
+# Module-4: Selenium WebDriver
 
-## **1. Introduction to WebDriver and Architecture**
+## Introduction to WebDriver and Architecture
 
 Selenium WebDriver can be defined in three ways:
 
@@ -181,7 +180,8 @@ Selenium WebDriver can be defined in three ways:
 > - Communication Protocol:
 >   - Old: JSON wire protocol
 >   - New (Selenium 4+): W3C protocol
-<hr/>
+
+---
 
 ## Environment Setup & WebDriver Configuration
 **Two Approaches to Setup:**
@@ -313,7 +313,7 @@ Example:
   - **Download new** version JARs
 <hr/>
 
-## Setting up WebDriver in Eclipse {#setting-up-webdriver-in-eclipse}
+## Setting up WebDriver in Eclipse
 
 **Create a Java Class and Write a Sample Script**
 - Right-click on src/main/java
