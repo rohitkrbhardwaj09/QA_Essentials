@@ -705,7 +705,7 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 ---
 
-### 🔹 1. Browser Control Methods
+## Browser Control Methods
 
 | Method                          | Description                                      |
 |--------------------------------|--------------------------------------------------|
@@ -718,7 +718,7 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 ---
 
-### 🔹 2. Navigation Methods
+## Navigation Methods
 
 | Method                          | Description                                      |
 |--------------------------------|--------------------------------------------------|
@@ -729,7 +729,7 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 ---
 
-### 🔹 3. Window and Frame Handling
+## Window and Frame Handling
 
 | Method                                 | Description                                 |
 |----------------------------------------|---------------------------------------------|
@@ -741,7 +741,7 @@ WebDriver provides several **built-in methods** to control the browser and inter
 | `switchTo().alert()`                   | Switches to the alert box                   |
 
 ---
-### 🔹 4. Common Conditional Methods
+## Common Conditional Methods
 
 These methods return `true` or `false` and are used to verify the state of a web element before interacting with it.
 
@@ -753,7 +753,7 @@ These methods return `true` or `false` and are used to verify the state of a web
 
 ---
 
-### 🔹 5. WebElement Interaction Methods
+## WebElement Interaction Methods
 
 | Method                                  | Description                                     |
 |-----------------------------------------|-------------------------------------------------|
@@ -769,11 +769,11 @@ These methods return `true` or `false` and are used to verify the state of a web
 | `isSelected()`                          | Checks if the element is selected              |
 ---
 
-### 🔹6. Wait Methods
+## Wait Methods
 
 # 🧪 Example Usage
 
-## 🔹 1. Browser Control Methods
+## Browser Control Methods
 
 ### get(String url)
 
@@ -1002,7 +1002,7 @@ public class NavigationMethod{
 ```
 ---
 
-### 🔹 3. Window and Frame Handling
+## Window and Frame Handling
 
 | Method                                 | Description                                 |
 |----------------------------------------|---------------------------------------------|
@@ -1233,7 +1233,7 @@ public class ConditionalMethod {
 
 ---
 
-### 6. Waits Method {#Waits-Method}
+## Waits Method
 
 **Q. How does selenium solves synchronization issue?**
 **Q. What is Synchronization in Selenium??**
