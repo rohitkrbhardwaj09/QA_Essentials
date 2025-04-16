@@ -709,7 +709,7 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 | Method                          | Description                                      |
 |--------------------------------|--------------------------------------------------|
-| [`get(String url)`](Notes.md#get(String-url))              | Opens the given URL in the browser              |
+| [`get(String url)`](#get(String-url))              | Opens the given URL in the browser              |
 | `getTitle()`                   | Returns the title of the current page           |
 | `getCurrentUrl()`              | Returns the current URL                         |
 | `getPageSource()`              | Returns the page source of the current page     |
