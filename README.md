@@ -304,14 +304,13 @@ The course is structured around several modules, covering essential topics such 
 
 # Module-4: Selenium WebDriver (Latest Version)
 
-
 - [Introduction to WebDriver and Architecture](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
 - [Overview of Selenium WebDriver](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
 - [Architecture of Selenium WebDriver](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
 
-- [Environment Setup & WebDriver Configuration](Selenium/Notes.md#Introduction-to-WebDriver-and-Architecture)
+- [Environment Setup & WebDriver Configuration](Selenium/Notes.md#Environment-Setup-&-WebDriver-Configuration)
 
 - [Setting up WebDriver in Eclipse](Selenium/Notes.md#setting-up-webdriver-in-eclipse)
 
