@@ -705,11 +705,11 @@ WebDriver provides several **built-in methods** to control the browser and inter
 
 ---
 
-## Browser Control Methods
+## [Browser Control Methods](Selenium/Notes.md#Browser-Control-Methods)
 
 | Method                          | Description                                      |
 |--------------------------------|--------------------------------------------------|
-| `get(String url)`              | Opens the given URL in the browser              |
+| [`get(String url)`](Selenium/Notes.md#get(String-url))              | Opens the given URL in the browser              |
 | `getTitle()`                   | Returns the title of the current page           |
 | `getCurrentUrl()`              | Returns the current URL                         |
 | `getPageSource()`              | Returns the page source of the current page     |
