@@ -378,13 +378,20 @@ The course is structured around several modules, covering essential topics such 
 
 - Getting Page URL
 
-- Conditional Methods
+- [WebDriver Methods](Selenium/Notes.md#WebDriver-Methods)
+  - [Browser Control Methods](Selenium/Notes.md#Browser-Control-Methods)
+  - [Conditional Methods](Selenium/Notes.md#Conditional-Methods)
+  - [Navigation Methods](Selenium/Notes.md#Navigation-Methods)
+  - [Window and Frame Handling](Selenium/Notes.md#Window-and-Frame-Handling)
+  - [Common Conditional Methods](Selenium/Notes.md#Common-Conditional-Methods)
+  - [WebElement Interaction Methods](Selenium/Notes.md#WebElement-Interaction-Methods)
+  - [Wait Methods](Selenium/Notes.md#Wait-Methods)
 
 - Visibility of WebElements
 
 - Enable/Disable Status of Web Elements
 
-- <a href="Selenium/Notes.md#Waits-Method">Waits Method</a>
+- [Waits Method](Selenium/Notes.md#waits-method) 
 
 - Implicit Waits
 
@@ -400,7 +407,7 @@ The course is structured around several modules, covering essential topics such 
 
 - Refreshing Page
 
-- Browser Commands
+- [Browser Control Methods](Selenium/Notes.md#Browser-Control-Methods)
 
 - close() and quit()
 
