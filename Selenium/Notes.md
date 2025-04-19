@@ -1813,6 +1813,7 @@ No. Each thread should have its own instance of FluentWait.
 | **List Items**       | `<ul>`, `<ol>`, `<li>`            | Menus, lists                  | `List<WebElement> items = element.findElements(By.tagName("li"));`|
 | **iFrame**           | `<iframe>`                        | Embedded frame, ads           | `driver.switchTo().frame(element);`                               |
 | **Date Picker**      | `<input type="date">` or custom   | Calendar widget               | `element.sendKeys("2025-04-19");` (varies for custom pickers)     |
+| [Alert](Notes.md#Handling-Alert-Boxes-in-Selenium-WebDriver) | dummy | dummy | dummy |
 
 # Notes:
 - Always locate your WebElement first using `driver.findElement(By.…)` or `findElements()`
@@ -2447,4 +2448,140 @@ for (WebElement link : allLinks) {
 ```
 
 ---
+## Handling Alert Boxes in Selenium WebDriver
 
+This guide explains how to handle different types of alert boxes in Selenium with real-time examples and code comments for better understanding.
+
+### ✅ Types of JavaScript Alerts
+
+| Type              | Description                                     |
+|-------------------|-------------------------------------------------|
+| Simple Alert      | Contains a message and an OK button             |
+| Confirmation Alert| Contains OK and Cancel buttons                  |
+| Prompt Alert      | Input box along with OK and Cancel buttons      |
+| Dynamic Alert     | Waits dynamically using `WebDriverWait`         |
+
+### 🔗 Practice URL
+
+👉 [https://the-internet.herokuapp.com/javascript_alerts](https://the-internet.herokuapp.com/javascript_alerts)
+
+---
+
+### 🚀 Java Code with All Alert Handling Examples
+
+```java
+package web_elements;
+
+import java.time.Duration;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class AlertDemo {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait mywait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        driver.manage().window().maximize();
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+
+        // ---------------------------------------------
+        // 1️⃣ Simple Alert - Only OK button
+        // ---------------------------------------------
+        driver.findElement(By.xpath("//button[normalize-space()='Click for JS Alert']")).click();
+        
+        // Switch to alert and accept
+        Alert simpleAlert = driver.switchTo().alert();
+        System.out.println("Alert message: " + simpleAlert.getText());
+        simpleAlert.accept();
+        System.out.println("✅ Simple Alert accepted\n");
+
+        // ---------------------------------------------
+        // 2️⃣ Confirmation Alert - OK and Cancel
+        // ---------------------------------------------
+        driver.findElement(By.xpath("//button[normalize-space()='Click for JS Confirm']")).click();
+
+        Alert confirmAlert = driver.switchTo().alert();
+        System.out.println("Confirm Alert message: " + confirmAlert.getText());
+
+        // Option 1: Accept (click OK)
+        // confirmAlert.accept();
+
+        // Option 2: Dismiss (click Cancel)
+        confirmAlert.dismiss();
+        System.out.println("❎ Confirmation Alert dismissed\n");
+
+        // Verification
+        WebElement confirmResult = driver.findElement(By.id("result"));
+        if (confirmResult.getText().contains("Cancel")) {
+            System.out.println("✅ Cancel button was clicked - Confirmation verified");
+        }
+
+        // ---------------------------------------------
+        // 3️⃣ Prompt Alert - Input box + OK/Cancel
+        // ---------------------------------------------
+        driver.findElement(By.xpath("//button[normalize-space()='Click for JS Prompt']")).click();
+
+        Alert promptAlert = driver.switchTo().alert();
+        System.out.println("Prompt Alert Text: " + promptAlert.getText());
+
+        // Send input to the alert
+        promptAlert.sendKeys("Welcome");
+        promptAlert.accept(); // or promptAlert.dismiss();
+
+        // Verify entered text displayed on the page
+        String promptResult = driver.findElement(By.id("result")).getText();
+        if (promptResult.contains("Welcome")) {
+            System.out.println("✅ Prompt input accepted and verified");
+        }
+
+        // ---------------------------------------------
+        // 4️⃣ Dynamic Alert Handling with WebDriverWait
+        // ---------------------------------------------
+        driver.findElement(By.xpath("//button[normalize-space()='Click for JS Prompt']")).click();
+
+        // Wait until alert is present using explicit wait
+        Alert waitAlert = mywait.until(ExpectedConditions.alertIsPresent());
+        waitAlert.accept(); // Can also dismiss
+
+        System.out.println("✅ Dynamic Alert handled using WebDriverWait");
+
+        driver.quit();
+    }
+}
+```
+
+## 🧠 Interview Questions
+
+Question	|	Answer
+What if NoAlertPresentException is thrown?	|	Use ExpectedConditions.alertIsPresent() before switching
+Can you send text to simple or confirmation alert?	|	❌ No, only prompt alerts support input
+How do you verify alert text without clicking it?	|	alert.getText()
+
+## 🔧 Tips & Tricks
+- Always switch to alert using driver.switchTo().alert() before interacting.
+- Use WebDriverWait if alert is triggered with delay.
+- Prompt alerts only allow sendKeys() input.
+- Use try-catch to handle unexpected or missing alerts gracefully.
+```java
+try {
+    Alert alert = driver.switchTo().alert();
+    alert.accept();
+} catch (NoAlertPresentException e) {
+    System.out.println("No alert to handle.");
+}
+```
+## 💡 Real-Time Use Cases
+
+Alert Type	|	Real Scenario Example
+---	|	---
+Simple Alert	|	Login warning, confirmation messages
+Confirmation Alert	|	Deleting a record or logout prompt
+Prompt Alert	|	Asking for a reason for rejection/confirmation
+Dynamic Alert Wait	|	Alerts triggered after AJAX or server call
