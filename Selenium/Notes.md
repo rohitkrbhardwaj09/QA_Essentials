@@ -2782,3 +2782,222 @@ public class FrameAssignment {
 
 }
 ```
+
+--- 
+
+## Handling Dropdown in Selenium WebDriver
+There are multiple types of dropdowns in web development when working with Selenium:
+## [1. Standard Dropdown (HTML Select Tag)](Notes.md#Standard-Dropdown)
+✅ Identified by:
+`<select>` HTML tag
+
+`<option>` tags inside
+
+🛠️ Handled using:
+Selenium's `Select` class
+
+💡 Example HTML:
+```html
+<select id="country">
+  <option value="in">India</option>
+  <option value="us">USA</option>
+</select>
+```
+🚀 Handling:
+```java
+WebElement countryDropdown = driver.findElement(By.id("country"));
+Select select = new Select(countryDropdown);
+select.selectByVisibleText("India");
+```
+
+## 2. Custom Dropdown (Non-Select Dropdown)
+❌ Not a <select> element
+Custom-built using:
+
+<div>, <ul>, <li>, <a>, or other tags
+
+JavaScript or CSS for behavior
+
+🛠️ Handled using:
+Manual clicks
+
+Locating and interacting with elements
+
+💡 Example HTML:
+```html
+<div class="dropdown">
+  <button>Choose</button>
+  <ul>
+    <li>Option 1</li>
+    <li>Option 2</li>
+  </ul>
+</div>
+```
+🚀 Handling:
+```java
+driver.findElement(By.className("dropdown")).click(); // open dropdown
+List<WebElement> options = driver.findElements(By.tagName("li"));
+for (WebElement option : options) {
+    if (option.getText().equals("Option 1")) {
+        option.click();
+        break;
+    }
+}
+```
+
+3. Bootstrap Dropdown
+✅ Identified by:
+Built using Bootstrap framework
+
+Uses <div>, <button>, <ul>, <li> (NOT <select>)
+
+Styled and shown via JavaScript/CSS (not native browser dropdown)
+
+🛠️ Handled using:
+Manual click actions (like custom dropdowns)
+
+💡 Example HTML:
+```html
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+    Choose Country
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">India</a>
+    <a class="dropdown-item" href="#">USA</a>
+  </div>
+</div>
+```
+🚀 Handling:
+```java
+// Click to open dropdown
+driver.findElement(By.className("dropdown-toggle")).click();
+
+// Select the required item
+List<WebElement> options = driver.findElements(By.className("dropdown-item"));
+for (WebElement option : options) {
+    if (option.getText().equals("India")) {
+        option.click();
+        break;
+    }
+}
+```
+
+4. Hidden Dropdown
+✅ Identified by:
+Dropdown is not visible on page load
+
+May require hover, click, or JavaScript to display
+
+Often used in complex UIs, dynamic menus, or autocomplete fields
+
+🛠️ Handled using:
+JavaScript executor
+
+Actions class (hover/mouse movement)
+
+Waiting for visibility
+
+🚀 Example Handling:
+```java
+WebElement dropdown = driver.findElement(By.id("hiddenMenu"));
+
+// Option 1: Hover using Actions
+Actions action = new Actions(driver);
+action.moveToElement(dropdown).perform();
+
+// Option 2: Make visible using JavaScript
+JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript("arguments[0].style.display='block';", dropdown);
+
+// Then interact with dropdown items
+driver.findElement(By.xpath("//li[text()='Option 1']")).click();
+```
+
+✅ Summary Table
+Type | HTML Tag(s) | Identified By | Selenium Handling
+Standard Dropdown | <select> | Native HTML dropdown | Select class
+Custom Dropdown | <div>, <ul>, etc. | No <select>, JS/CSS based | Manual click + list find
+Bootstrap Dropdown | <button>, <a> | Bootstrap class (dropdown) | Manual click + class based selector
+Hidden Dropdown | Any (hidden via CSS) | Requires hover or JS to reveal | Actions class / JavaScript executor
+
+---
+## Standard Dropdown
+A dropdown is a web element (`<select>` tag) that allows users to select one option from a list.
+Selenium handles dropdowns using the Select class (from `org.openqa.selenium.support.ui` package).
+
+### Select Class Methods
+Method | Description
+--- | ---
+selectByVisibleText("Option") | Select using option's text
+selectByIndex(index) | Select by index (0-based)
+selectByValue("value") | Select by value attribute
+getOptions() | Returns all options in the dropdown
+getFirstSelectedOption() | Returns currently selected option
+deselectAll() | Deselects all (only for multi-select)
+isMultiple() | Returns true if dropdown supports multiple selections
+
+**Example**
+```java
+package web_elements;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class DropDownDemo {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.manage().window().maximize();
+		
+		driver.get("https://testautomationpractice.blogspot.com/");
+		
+		
+		WebElement drpCountryEle = driver.findElement(By.xpath("//select[@id='country']"));
+		Select drpCountry = new Select(drpCountryEle);
+		
+		//1) select by visible text
+		drpCountry.selectByVisibleText("France");
+		
+		//2) select by index
+		drpCountry.selectByIndex(5);
+		
+		//3) select by value
+		drpCountry.selectByValue("japan");
+			
+		//4) select by contained visible text
+		drpCountry.selectByContainsVisibleText("nada");
+		
+		//5) get all options
+		List<WebElement> options = drpCountry.getOptions();
+		for (WebElement optn : options) {
+			System.out.println(optn.getText());
+		}
+		
+		//6) get first selected option
+		WebElement selectedOption = drpCountry.getFirstSelectedOption();
+		System.out.println("Selected Option is: "+selectedOption.getText());
+		
+		//7) isMultiple
+		if(drpCountry.isMultiple()) {
+			System.out.println("Dropdown supports multi select");
+			//8) de-select 
+			drpCountry.deselectAll();
+		}else {
+			System.out.println("DropDown does not support multi select");
+		}
+		
+		driver.quit();
+	}
+}
+```
+
