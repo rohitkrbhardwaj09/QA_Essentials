@@ -1806,7 +1806,7 @@ No. Each thread should have its own instance of FluentWait.
 | [Checkbox](Notes.md#Handling-Checkboxes-in-Selenium)         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
 | [Button](Notes.md#Handling-Buttons-in-Selenium-WebDriver)           | `<button>`, `<input type="submit">`, `<input type="button">` | Submit, Save buttons | `element.click();`                                                |
 | **Dropdown (Select)**| `<select>`                        | Country list                  | `new Select(element).selectByVisibleText("India");`               |
-| **Hyperlink (Link)** | `<a>`                             | Navigation links              | `element.click();` or `element.getAttribute("href");`             |
+| [Hyperlink (Link)](Notes.md#Handling-Hyperlinks-in-Selenium) | `<a>`                             | Navigation links              | `element.click();` or `element.getAttribute("href");`             |
 | **Image**            | `<img>`                           | Product image                 | `element.getAttribute("src");`                                    |
 | **Label / Text**     | `<label>`, `<p>`, `<span>`, `<div>` | Static text, headers         | `element.getText();`                                              |
 | **Table**            | `<table>`, `<tr>`, `<td>`         | Data grids                    | `List<WebElement> rows = element.findElements(By.tagName("tr"));` |
@@ -2371,3 +2371,80 @@ How to handle if the button is not clickable?	|	Use JavaScriptExecutor.
 How to verify if a button is enabled or disabled?	|	Use .isEnabled() method.
 What if button is hidden by overlay?	|	Use JS click or wait for overlay to disappear.
 How to verify the button label or text?	|	Use .getText() for <button>, or .getAttribute("value") for <input type="submit">.
+
+--- 
+
+##  Handling Hyperlinks in Selenium
+
+### 📌 What is a Hyperlink?
+
+A **hyperlink** (`<a>` tag) is an anchor element used to navigate from one page to another.
+
+🔍 **Example HTML**
+```html
+<a href="https://example.com/login" id="loginLink">Login</a>
+```
+
+### ✅ Locating a Hyperlink
+**➤ By Link Text**
+```java
+WebElement loginLink = driver.findElement(By.linkText("Login"));
+loginLink.click();
+```
+
+**➤ By Partial Link Text**
+```java
+WebElement loginLink = driver.findElement(By.partialLinkText("Log"));
+loginLink.click();
+```
+
+**➤ By XPath or CSS**
+```java
+WebElement link = driver.findElement(By.xpath("//a[@id='loginLink']"));
+link.click();
+```
+
+### 🔍 Real-Time Example: Click Link to Navigate
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://itera-qa.azurewebsites.net/home/automation");
+
+WebElement testLink = driver.findElement(By.linkText("Test Automation"));
+testLink.click();
+```
+
+### ✅ Get Link URL (href Attribute)
+```java
+String url = loginLink.getAttribute("href");
+System.out.println("Link URL: " + url);
+```
+
+## 🧠 Interview Questions
+
+Question	|	Answer
+---	|	---
+How do you click a link in Selenium?	|	Use .click() on an <a> tag element.
+What's the difference between linkText and partialLinkText?	|	linkText matches exact text; partialLinkText allows partial match.
+How to extract the destination URL of a link?	|	Use .getAttribute("href").
+What if clicking link does not redirect?	|	Check for JS-based navigation or overlays.
+Can you click link using JavaScript?	|	Yes, using JavascriptExecutor.
+
+### ⚙️ Clicking Link with JavaScript (if .click() fails)
+```java
+JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript("arguments[0].click();", loginLink);
+```
+
+### 🔁 Iterate Over All Links on a Page
+```java
+List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+
+System.out.println("Total links: " + allLinks.size());
+
+for (WebElement link : allLinks) {
+    System.out.println(link.getText() + " --> " + link.getAttribute("href"));
+}
+```
+
+---
+
