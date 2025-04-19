@@ -1276,7 +1276,7 @@ Thread.sleep(3000); // pauses for 3 seconds (3000 milliseconds)
 
 In Selenium, **waits** are used to pause execution until a certain condition is met or until a specified time has elapsed. They help in handling dynamic web pages where elements take time to load.
 
-### 🔸 1. Implicit Wait
+##🔸 1. Implicit Wait
 
 #### ✅ Description:
 Tells WebDriver to wait for a certain amount of time when trying to find an element if it is not immediately available.
@@ -1328,7 +1328,7 @@ public class WaitMethod {
 
 ---
 
-### 🔸** 2. Explicit Wait** (_Recommonded_)
+## 🔸** 2. Explicit Wait** (_Recommonded_)
 
 #### ✅ Description:
 Waits for a certain condition to occur before proceeding further in the code.
@@ -1579,5 +1579,349 @@ wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("frame1")));
 - Always use `visibilityOfElementLocated` or `elementToBeClickable` for user interactions.
 - Avoid using `Thread.sleep()` – it waits blindly.
 - Explicit waits solve **synchronization issues** effectively.
+
+---
+
+## **FluentWait** in Selenium
+
+## 🔹 What is FluentWait?
+**FluentWait** is a type of dynamic wait in Selenium that waits for a condition to be true within a maximum time, checking at regular intervals.  
+It also ignores specific exceptions while polling.
+
+## 🔹 Why Use FluentWait?
+- When elements take **variable time** to appear/load.
+- To **customize** polling intervals.
+- To **ignore specific exceptions** like `NoSuchElementException`.
+
+## 🔹 FluentWait Syntax in Java
+
+```java
+Wait<WebDriver> wait = new FluentWait<>(driver)
+    .withTimeout(Duration.ofSeconds(20))
+    .pollingEvery(Duration.ofSeconds(1))
+    .ignoring(NoSuchElementException.class);
+
+WebElement element = wait.until(new Function<WebDriver, WebElement>() {
+    public WebElement apply(WebDriver driver) {
+        WebElement el = driver.findElement(By.id("dynamicElement"));
+        if (el.isDisplayed()) {
+            return el;
+        }
+        return null;
+    }
+});
+
+```
+### ✅ Real-Time Scenario Example — FluentWait in Selenium
+
+### 📌 Scenario:
+You are testing a **shopping site** where the "Add to Cart" button appears **only after a few seconds** once the product is selected due to AJAX loading.  
+If you directly try to click it, you might get a `NoSuchElementException`.
+
+---
+
+### 💡 Objective:
+Use `FluentWait` to wait until the "Add to Cart" button becomes visible and clickable.
+
+---
+
+### 🧪 Test Case:
+1. Open the product page.
+2. Wait for "Add to Cart" button to appear.
+3. Click on it.
+
+---
+
+### ✅ FluentWait Implementation in Java:
+
+```java
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import java.time.Duration;
+import java.util.function.Function;
+
+public class FluentWaitExample {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example-shopping.com/product/123");
+
+        // FluentWait configuration
+        Wait<WebDriver> wait = new FluentWait<>(driver)
+            .withTimeout(Duration.ofSeconds(20))
+            .pollingEvery(Duration.ofSeconds(2))
+            .ignoring(NoSuchElementException.class);
+
+        // Wait until "Add to Cart" button is visible and return it
+        WebElement addToCartBtn = wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                WebElement button = driver.findElement(By.id("add-to-cart"));
+                if (button.isDisplayed() && button.isEnabled()) {
+                    System.out.println("Button is visible and clickable now.");
+                    return button;
+                }
+                return null;
+            }
+        });
+
+        // Perform action
+        addToCartBtn.click();
+        System.out.println("Clicked on Add to Cart button!");
+
+        driver.quit();
+    }
+}
+```
+### 🎯 **Key Points:**
+- Custom wait time: 20 seconds
+- Polling interval: Every 2 seconds
+- Ignores NoSuchElementException
+- Checks both isDisplayed() and isEnabled() conditions
+
+### Difference Between FluentWait, WebDriverWait, and Implicit Wait
+
+Wait Type	| Custom Polling	| Exception Handling	| Scope
+---|---|---|---
+Implicit Wait |	❌ No |	❌ No |	Applies to all elements globally
+WebDriverWait |	✅ Yes | (default 500ms) |	✅ Yes (part of FluentWait) |	Specific to condition
+FluentWait |	✅ Yes |	✅ Yes |	Highly customizable 
+
+# 🧠 FluentWait – Tricky Interview Questions
+
+---
+
+## ❓ When do you prefer FluentWait over WebDriverWait?
+
+### ✅ Answer: 
+When I need more control over polling frequency and want to handle specific exceptions or conditions—for example, waiting for elements loaded via AJAX with unpredictable response time.
+
+## ❓ Can you explain a real-time scenario where you used FluentWait?
+
+### ✅ Answer: 
+In one project, the "Place Order" button appeared only after payment options were loaded via AJAX. I used FluentWait to poll every 1 second and ignore NoSuchElementException until the button was interactable. This avoided flaky failures in our automation suite.
+
+## ❓ Q: Can you explain the difference between FluentWait and WebDriverWait in detail?
+
+### ✅ Answer:
+WebDriverWait is actually a subclass of FluentWait with some defaults:
+- **WebDriverWait** has default polling of **500ms**.
+- **FluentWait** lets you **customize** everything: polling, timeout, exception handling.
+
+> Use FluentWait when you need **fine-grained control** over the wait.
+
+## ❓ Q: What happens if the condition in FluentWait is never met?
+
+### ✅ Answer:
+- If the condition is **never true** within the timeout, it throws a `TimeoutException`.
+
+```java
+Exception in thread "main" org.openqa.selenium.TimeoutException
+```
+
+## ❓ Q: What exceptions can you ignore in FluentWait?
+### ✅ Answer:
+You can ignore any runtime exception like:
+
+- NoSuchElementException
+- StaleElementReferenceException
+- ElementNotVisibleException
+```java
+ .ignoring(NoSuchElementException.class)
+ .ignoring(StaleElementReferenceException.class)
+```
+
+## ❓ Q: Can FluentWait be used for page load timeout?
+### ✅ Answer:
+No. FluentWait is for element conditions, not for page load.
+
+👉 Use:
+```java
+driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+```
+
+## ❓ Q: Can you use FluentWait with WebElement instead of WebDriver?
+### ✅ Answer:
+Yes, but it’s less common. While most FluentWait use-cases involve `WebDriver`, you can also use it with `WebElement` directly to **wait for internal changes** like text, visibility, or attribute changes **within the element itself**.
+```java
+new FluentWait<>(element)
+```
+
+📌 **Real-Time Scenario:**
+
+You are testing a **real-time notification system**, where a `<div>` element’s **text changes** after an operation.  
+Instead of re-finding the element again and again, use FluentWait on the existing `WebElement`.
+
+## ✅ Example – Wait for text change using FluentWait on WebElement
+
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://example.com/notification");
+
+// Step 1: Locate the element once
+WebElement notification = driver.findElement(By.id("status-message"));
+
+// Step 2: Wait for the element’s text to update
+Wait<WebElement> wait = new FluentWait<>(notification)
+    .withTimeout(Duration.ofSeconds(15))
+    .pollingEvery(Duration.ofSeconds(2))
+    .ignoring(NoSuchElementException.class);
+
+wait.until(new Function<WebElement, Boolean>() {
+    public Boolean apply(WebElement element) {
+        String text = element.getText();
+        System.out.println("Current text: " + text);
+        return text.contains("Success");
+    }
+});
+```
+
+## ❓ Q: What is the default polling interval in FluentWait?
+### ✅ Answer:
+No default! You must set pollingEvery(...).
+Unlike WebDriverWait which defaults to 500ms polling.
+
+## ❓ Q: What are real-time failures where FluentWait helped?
+### ✅ Answer:
+- AJAX-loaded content delays
+- Buttons that appear after animation
+- Third-party scripts like payment gateways
+
+🎯 FluentWait avoids test flakiness in these dynamic UIs.
+
+## ❓ Q: Is FluentWait thread-safe?
+### ✅ Answer:
+No. Each thread should have its own instance of FluentWait.
+
+
+--- 
+---
+
+# Selenium WebElements (Quick Reference Guide)
+
+| WebElement Type     | HTML Tag(s)                        | Example                       | Selenium Handling (Java)                                          |
+|----------------------|------------------------------------|-------------------------------|--------------------------------------------------------------------|
+| [Text Box](Selenium/Notes.md#Handling-Text-Boxes-in-Selenium-WebDriver)         | `<input type="text">`, `<textarea>` | Search bar, username field    | `element.sendKeys("text");`                                       |
+| **Password Field**   | `<input type="password">`         | Login form password           | `element.sendKeys("password");`                                   |
+| **Radio Button**     | `<input type="radio">`            | Gender selection              | `if (!element.isSelected()) element.click();`                      |
+| **Checkbox**         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
+| **Button**           | `<button>`, `<input type="submit">`, `<input type="button">` | Submit, Save buttons | `element.click();`                                                |
+| **Dropdown (Select)**| `<select>`                        | Country list                  | `new Select(element).selectByVisibleText("India");`               |
+| **Hyperlink (Link)** | `<a>`                             | Navigation links              | `element.click();` or `element.getAttribute("href");`             |
+| **Image**            | `<img>`                           | Product image                 | `element.getAttribute("src");`                                    |
+| **Label / Text**     | `<label>`, `<p>`, `<span>`, `<div>` | Static text, headers         | `element.getText();`                                              |
+| **Table**            | `<table>`, `<tr>`, `<td>`         | Data grids                    | `List<WebElement> rows = element.findElements(By.tagName("tr"));` |
+| **List Items**       | `<ul>`, `<ol>`, `<li>`            | Menus, lists                  | `List<WebElement> items = element.findElements(By.tagName("li"));`|
+| **iFrame**           | `<iframe>`                        | Embedded frame, ads           | `driver.switchTo().frame(element);`                               |
+| **Date Picker**      | `<input type="date">` or custom   | Calendar widget               | `element.sendKeys("2025-04-19");` (varies for custom pickers)     |
+
+# Notes:
+- Always locate your WebElement first using `driver.findElement(By.…)` or `findElements()`
+- For dropdowns, import: `import org.openqa.selenium.support.ui.Select;`
+- Always check visibility and interactivity if unsure:  
+  `element.isDisplayed();`, `element.isEnabled();`
+- For iFrames: Switch back using `driver.switchTo().defaultContent();`
+
+---
+
+## Handling Text Boxes in Selenium WebDriver
+
+---
+
+## 🧪 What is a Text Box?
+
+A **Text Box** is an HTML `<input type="text">` element that allows the user to enter text.
+
+---
+
+## 🧾 Common Operations on Text Boxes
+
+| Operation                          | Method                                |
+|-----------------------------------|---------------------------------------|
+| Enter text into a textbox         | `sendKeys("value")`                   |
+| Clear existing text               | `clear()`                             |
+| Get entered text (if any)         | `getAttribute("value")`               |
+| Check if text box is enabled      | `isEnabled()`                         |
+| Check if text box is displayed    | `isDisplayed()`                       |
+
+---
+
+## 🌐 Example URL:  
+`https://itera-qa.azurewebsites.net/home/automation`
+
+---
+
+## ✅ Real-Time Example – Text Box Handling
+
+```java
+WebDriverManager.chromedriver().setup();
+WebDriver driver = new ChromeDriver();
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+driver.get("https://itera-qa.azurewebsites.net/home/automation");
+driver.manage().window().maximize();
+
+// Locate text boxes
+WebElement nameBox = driver.findElement(By.id("name"));
+WebElement emailBox = driver.findElement(By.id("email"));
+WebElement phoneBox = driver.findElement(By.id("phone"));
+WebElement addressBox = driver.findElement(By.id("address"));
+WebElement passwordBox = driver.findElement(By.id("password"));
+
+// Enter values
+nameBox.sendKeys("Rahul Sharma");
+emailBox.sendKeys("rahul@example.com");
+phoneBox.sendKeys("9876543210");
+addressBox.sendKeys("Mumbai, India");
+passwordBox.sendKeys("Test@123");
+
+// Clear a textbox
+nameBox.clear();
+
+// Check if textbox is displayed and enabled
+if (nameBox.isDisplayed() && nameBox.isEnabled()) {
+    nameBox.sendKeys("Amit Verma");
+}
+
+// Get the entered value for validation
+String enteredName = nameBox.getAttribute("value");
+System.out.println("Entered Name: " + enteredName);
+```
+### 🎯 Real-Time Scenario Use Case
+✅ **Use Case:**
+- Filling a user registration form where name, email, phone, address, and password are all required inputs.
+- Simulate real user input.
+- Clear fields if resetting form or validating edge cases.
+- Validate post-entry using getAttribute("value").
+
+### 🚫 Common Mistakes
+- ❌ Using getText() instead of getAttribute("value") for input fields.
+- ❌ Not checking if the element is enabled before interacting.
+- ❌ Not using waits when the textbox is dynamically loaded.
+
+## 💬 Tricky Interview Questions
+### ❓ **Q:** How do you validate that text was correctly entered in a text box?
+```java
+String entered = element.getAttribute("value");
+Assert.assertEquals(entered, "ExpectedValue");
+```
+
+### ❓ **Q:** Can you retrieve text from a disabled textbox?
+### ✅ Answer: 
+Yes, using getAttribute("value") even if the textbox is disabled.
+
+### ❓ **Q:** How would you handle text box input if the field is dynamic?
+### ✅ Answer:
+You can use FluentWait or ExplicitWait to wait for textbox visibility:
+```java
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebElement dynamicBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
+dynamicBox.sendKeys("TestUser");
+```
+
+### 🧠 Best Practices
+- Use **clear()** before **sendKeys()** to avoid appending.
+- Always validate the value using **getAttribute("value")**.
+- Use **Page Object Model (POM)** to abstract text box locators and actions.
+- Prefer **By.id** for faster and reliable selection when available.
 
 ---
