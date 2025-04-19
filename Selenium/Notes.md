@@ -1801,9 +1801,9 @@ No. Each thread should have its own instance of FluentWait.
 | WebElement Type     | HTML Tag(s)                        | Example                       | Selenium Handling (Java)                                          |
 |----------------------|------------------------------------|-------------------------------|--------------------------------------------------------------------|
 | [Text Box](Notes.md#Handling-Text-Boxes-in-Selenium-WebDriver)         | `<input type="text">`, `<textarea>` | Search bar, username field    | `element.sendKeys("text");`                                       |
-| **Password Field**   | `<input type="password">`         | Login form password           | `element.sendKeys("password");`                                   |
-| **Radio Button**     | `<input type="radio">`            | Gender selection              | `if (!element.isSelected()) element.click();`                      |
-| **Checkbox**         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
+| [Password Field](Notes.md#Handling-Password-Fields-in-Selenium-WebDriver)   | `<input type="password">`         | Login form password           | `element.sendKeys("password");`                                   |
+| [Radio Button](Notes.md#Handling-Radio-Buttons-in-Selenium)     | `<input type="radio">`            | Gender selection              | `if (!element.isSelected()) element.click();`                      |
+| [Checkbox](Notes.md#Handling-Checkboxes-in-Selenium)         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
 | **Button**           | `<button>`, `<input type="submit">`, `<input type="button">` | Submit, Save buttons | `element.click();`                                                |
 | **Dropdown (Select)**| `<select>`                        | Country list                  | `new Select(element).selectByVisibleText("India");`               |
 | **Hyperlink (Link)** | `<a>`                             | Navigation links              | `element.click();` or `element.getAttribute("href");`             |
@@ -1925,3 +1925,376 @@ dynamicBox.sendKeys("TestUser");
 - Prefer **By.id** for faster and reliable selection when available.
 
 ---
+
+## Handling Password Fields in Selenium WebDriver
+
+---
+
+### 🔎 What is a Password Field?
+
+A **Password Field** is an HTML input element with `type="password"`.  
+It behaves like a regular text field but **masks** the input for security.
+
+```html
+<input type="password" id="password" name="password" />
+```
+### 🧾 Common Operations on Password Fields
+
+Operation	|	Method
+---	|	---
+Enter password	|	sendKeys("yourPassword")
+Clear password	|	clear()
+Get entered value	|	getAttribute("value")
+Check if enabled/displayed	|	isEnabled(), isDisplayed()
+
+### 🌐 Real-Time Example Site
+🔗 https://itera-qa.azurewebsites.net/home/automation
+
+```java
+WebDriverManager.chromedriver().setup();
+WebDriver driver = new ChromeDriver();
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+driver.get("https://itera-qa.azurewebsites.net/home/automation");
+driver.manage().window().maximize();
+
+// Locate the password field
+WebElement passwordField = driver.findElement(By.id("password"));
+
+// Enter password
+passwordField.sendKeys("Test@123");
+
+// Validate entry
+String enteredPassword = passwordField.getAttribute("value");
+System.out.println("Entered Password: " + enteredPassword);
+
+// Clear the password field
+passwordField.clear();
+
+// Re-enter if field is visible and enabled
+if (passwordField.isDisplayed() && passwordField.isEnabled()) {
+    passwordField.sendKeys("NewPass@456");
+}
+```
+
+### 🎯 Real-Time Use Case
+**Login Form Automation**
+- In any real-time web app (e.g., Gmail, Facebook, banking apps), login involves:
+- Entering email/username.
+- Entering password (masked).
+- Clicking Login/Submit.
+
+**You must ensure:**
+- Password is accepted properly.
+- Validation for empty/invalid inputs works.
+- Correct field masking.
+
+
+### 🚫 Common Mistakes
+- ❌ Using getText() – doesn't work on input fields.
+- ❌ Forgetting to clear field before re-entering.
+- ❌ Not handling dynamic loading of fields (use waits).
+
+## 💬 Tricky Interview Questions
+### ❓ Q: How can you verify what was typed into a password field?
+### ✅ Answer: 
+**Use:**
+```java
+String password = passwordField.getAttribute("value");
+```
+
+### ❓ Q: Can you extract the password value even if it's masked?
+### ✅ Answer: 
+Yes, using getAttribute("value") (Selenium reads DOM, not UI mask).
+
+### ❓ Q: How would you handle login testing securely in automation?
+### ✅ Answer: 
+- Store passwords in environment variables or encrypted configs.
+- Avoid printing passwords in logs.
+- Use sendKeys() securely without hardcoding sensitive values.
+
+**To handle login testing securely:**
+
+1. **Do not hardcode credentials** in your script.
+2. **Store sensitive data (username/password)** in:
+   - Environment variables
+   - `.properties` / `.env` files (secured and ignored in version control)
+   - Encrypted storage
+3. **Avoid printing passwords** or logging sensitive data.
+4. Use `sendKeys()` securely after retrieving the data.
+
+---
+
+## 💻 Real-Time Example Using Environment Variables
+
+### ✅ Step 1: Set Environment Variables
+
+Set username and password on your system or CI pipeline.
+
+**Windows (CMD):**
+```cmd
+set LOGIN_USER=rahul123
+set LOGIN_PASS=Test@123
+```
+
+```java
+public class SecureLoginTest {
+
+    public static void main(String[] args) {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://example.com/login");
+
+        // Fetch credentials from environment variables
+        String username = System.getenv("LOGIN_USER");
+        String password = System.getenv("LOGIN_PASS");
+
+        // Locate login elements
+        WebElement usernameField = driver.findElement(By.id("username"));
+        WebElement passwordField = driver.findElement(By.id("password"));
+        WebElement loginButton   = driver.findElement(By.id("loginBtn"));
+
+        // Enter credentials securely
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
+        loginButton.click();
+
+        // ❌ Don't do this
+        // System.out.println("Entered password: " + password); // avoid logging sensitive info
+
+        driver.quit();
+    }
+}
+```
+
+### 🔐 Why This is Important?
+- ✅ Prevents accidental credential leaks in code repositories.
+- ✅ Ensures secure test automation in CI/CD pipelines.
+- ✅ Makes your tests portable and flexible (e.g., different users per environment).
+
+### 🧠 Best Practices
+- Use clear() before sendKeys().
+- Always validate field state using isEnabled() and isDisplayed().
+- Avoid hardcoding sensitive credentials in scripts.
+- Use configuration files (like .properties, .env, or external files).
+
+---
+
+## Handling Radio Buttons in Selenium
+
+### 📌 What is a Radio Button?
+
+A **radio button** allows the user to **select only one option** from a set of predefined choices. They are grouped using the same `name` attribute.
+
+## 🔍 Example HTML
+
+```html
+<form>
+  <input type="radio" name="gender" value="male" id="male"> Male<br>
+  <input type="radio" name="gender" value="female" id="female"> Female<br>
+</form>
+```
+
+### 🧪 How to Handle Radio Buttons in Selenium
+✅ **1. Select a Specific Radio Button**
+```java
+WebElement maleRadio = driver.findElement(By.id("male"));
+maleRadio.click();
+```
+
+✅ **2. Check If a Radio Button is Selected**
+```java
+if (maleRadio.isSelected()) {
+    System.out.println("Male option is selected");
+}
+```
+
+✅ **3. Verify if a Radio Button is Displayed and Enabled**
+```java
+if (maleRadio.isDisplayed() && maleRadio.isEnabled()) {
+    System.out.println("Radio button is ready to interact");
+}
+```
+
+✅ **4. Handle a Group of Radio Buttons**
+```java
+List<WebElement> genderOptions = driver.findElements(By.name("gender"));
+
+for (WebElement option : genderOptions) {
+    String value = option.getAttribute("value");
+    if (value.equals("female")) {
+        option.click();
+        break;
+    }
+}
+```
+
+### 🧠 Interview Questions
+
+Question	| Answer
+---	|	---
+How do you select a radio button in Selenium?	|Use click() method on the WebElement.
+How do you verify if a radio button is selected?	|	Use isSelected() method.
+How to select a radio button by value?	|	Iterate the list and use getAttribute("value").
+Difference between checkbox and radio button in Selenium?	|	Checkbox allows multiple selections; radio button allows one.
+What if clicking a radio button doesn't work?	|	Use JavaScript click or check for overlays.
+
+### ✅ Problem:
+> You try to click a radio button using .click(), but nothing happens. This might be because:
+
+- The element is hidden or covered by another element (overlay).
+- There is some JavaScript handler blocking direct interaction.
+
+### ✅ Solution:
+Use **JavaScript Executor** to perform the click action forcefully.
+
+💡 **Java Example with JavaScriptExecutor**
+```java
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
+
+WebDriver driver = new ChromeDriver();
+driver.get("https://itera-qa.azurewebsites.net/home/automation");
+
+WebElement maleRadio = driver.findElement(By.id("male"));
+
+JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript("arguments[0].click();", maleRadio);
+```
+
+**✅ Bonus: Check if element is clickable or overlapped**
+You can also try:
+```java
+try {
+    maleRadio.click();
+} catch (ElementClickInterceptedException e) {
+    System.out.println("Radio button is not clickable directly. Using JS click.");
+    js.executeScript("arguments[0].click();", maleRadio);
+}
+```
+
+---
+
+## Handling Checkboxes in Selenium
+
+#### 🌐 Test URL:
+`https://itera-qa.azurewebsites.net/home/automation`
+
+## 📂 Java Class Used:
+```java
+package day24;
+
+import java.time.Duration;
+import java.util.List;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class HandleCheckboxes {
+    public static void main(String[] args) throws InterruptedException {
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://itera-qa.azurewebsites.net/home/automation");
+        driver.manage().window().maximize();
+
+        List<WebElement> checkboxes = driver.findElements(
+            By.xpath("//input[@class='form-check-input' and @type='checkbox']")
+        );
+
+        // Example operations below...
+    }
+}
+```
+
+## ✅ All Checkbox Operations Breakdown
+
+### 1. ✅ Select Specific Checkbox
+```java
+driver.findElement(By.xpath("//input[@id='monday']")).click();
+```
+🧠 **Explanation:**
+This selects only the checkbox for Monday using its unique id. Best when you know the exact checkbox to click.
+
+
+### 2. ✅ Total Number of Checkboxes
+```java
+List<WebElement> checkboxes = driver.findElements(
+    By.xpath("//input[@class='form-check-input' and @type='checkbox']")
+);
+System.out.println("Total number of checkboxes:" + checkboxes.size());
+```
+🧠** Explanation:**
+Finds all checkbox elements using a common class & type. Useful to iterate over them dynamically.
+
+### 3. ✅ Select All Checkboxes
+```java
+for (WebElement chkbox : checkboxes) {
+    chkbox.click();
+}
+```
+🧠 **Explanation:**
+Useful when automating forms where all options must be selected (e.g., user selects all available days).
+
+### 4. ✅ Select First N Checkboxes
+```java
+for (int i = 0; i < 2; i++) {
+    checkboxes.get(i).click();
+}
+```
+🧠 **Explanation:**
+Selects only the first 2 checkboxes. Often used in test cases that verify minimum required selections.
+
+### 5. ✅ Select Last N Checkboxes
+```java
+for (int i = checkboxes.size() - 2; i < checkboxes.size(); i++) {
+    checkboxes.get(i).click();
+}
+```
+🧠 **Explanation:**
+For scenarios like: "User should be able to select the last 2 available options."
+
+### 6. ✅ Uncheck All Selected Checkboxes
+```java
+for (WebElement chkbox : checkboxes) {
+    if (chkbox.isSelected()) {
+        chkbox.click();
+    }
+}
+```
+🧠 **Explanation:**
+Best practice for resetting form state or ensuring checkboxes are in a known initial state.
+
+### 🧠 Best Practices
+- ✅ Use .isSelected() to avoid redundant clicks.
+- ✅ Always prefer List<WebElement> for dynamic checkbox groups.
+- ⏱ Use Thread.sleep() only for demo/debug, prefer Explicit Waits in real test cases.
+- 🧼 Use .clear() or refresh the page if checkboxes behave unpredictably.
+
+## 💬 Tricky Interview Questions
+### ❓ **Q:** How do you check if a checkbox is already selected?
+```java
+if (checkbox.isSelected()) { // returns true/false }
+```
+
+### ❓ **Q:** How would you select checkboxes dynamically based on label?
+```java
+driver.findElement(By.xpath("//label[text()='Monday']/preceding-sibling::input")).click();
+```
+
+### ❓ **Q:** How would you write a reusable method to check multiple boxes?
+```java
+public void selectCheckboxes(WebDriver driver, String[] values) {
+    for (String val : values) {
+        driver.findElement(By.xpath("//input[@value='" + val + "']")).click();
+    }
+}
+```
+---
+
