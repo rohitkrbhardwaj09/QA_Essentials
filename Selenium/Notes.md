@@ -1804,7 +1804,7 @@ No. Each thread should have its own instance of FluentWait.
 | [Password Field](Notes.md#Handling-Password-Fields-in-Selenium-WebDriver)   | `<input type="password">`         | Login form password           | `element.sendKeys("password");`                                   |
 | [Radio Button](Notes.md#Handling-Radio-Buttons-in-Selenium)     | `<input type="radio">`            | Gender selection              | `if (!element.isSelected()) element.click();`                      |
 | [Checkbox](Notes.md#Handling-Checkboxes-in-Selenium)         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
-| **Button**           | `<button>`, `<input type="submit">`, `<input type="button">` | Submit, Save buttons | `element.click();`                                                |
+| [Button](Notes.md#Handling-Buttons-in-Selenium-WebDriver)           | `<button>`, `<input type="submit">`, `<input type="button">` | Submit, Save buttons | `element.click();`                                                |
 | **Dropdown (Select)**| `<select>`                        | Country list                  | `new Select(element).selectByVisibleText("India");`               |
 | **Hyperlink (Link)** | `<a>`                             | Navigation links              | `element.click();` or `element.getAttribute("href");`             |
 | **Image**            | `<img>`                           | Product image                 | `element.getAttribute("src");`                                    |
@@ -2298,3 +2298,76 @@ public void selectCheckboxes(WebDriver driver, String[] values) {
 ```
 ---
 
+## Handling Buttons in Selenium WebDriver
+
+### 📌 What is a Button?
+
+A **button** is a clickable WebElement that performs an action when triggered — such as submitting a form, logging in, or navigating to another page.
+
+## 🔍 Example HTML
+
+```html
+<button type="submit" id="loginBtn">Login</button>
+
+<!-- Or -->
+<input type="submit" id="registerBtn" value="Register">
+```
+
+### ✅ How to Click a Button in Selenium
+**➤ Using .click() method**
+```java
+WebElement loginBtn = driver.findElement(By.id("loginBtn"));
+loginBtn.click();
+```
+
+### ✅ How to Verify Button Properties
+**➤ Check if Displayed and Enabled**
+```java
+if (loginBtn.isDisplayed() && loginBtn.isEnabled()) {
+    loginBtn.click();
+}
+```
+
+**➤ Check Button Text**
+```java
+String btnText = loginBtn.getText();
+System.out.println("Button Text: " + btnText);
+```
+
+### 🧪 Real-Time Scenario Example
+**Scenario: You want to click the "Submit" button after filling a form.**
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://itera-qa.azurewebsites.net/home/automation");
+
+WebElement submitBtn = driver.findElement(By.xpath("//button[text()='Submit']"));
+
+if (submitBtn.isEnabled()) {
+    submitBtn.click();
+} else {
+    System.out.println("Submit button is disabled.");
+}
+```
+
+### ⚙️ Click Using JavaScript (when .click() doesn't work)
+```java
+JavascriptExecutor js = (JavascriptExecutor) driver;
+js.executeScript("arguments[0].click();", submitBtn);
+```
+
+### ✅ Validate Button is Disabled
+```java
+WebElement btn = driver.findElement(By.id("submit"));
+boolean status = btn.isEnabled();
+System.out.println("Button enabled? " + status);
+```
+
+### 🧠 Interview Questions
+
+Question	|	Answer
+---	|	---
+How do you click a button in Selenium?	|	Use .click() method.
+How to handle if the button is not clickable?	|	Use JavaScriptExecutor.
+How to verify if a button is enabled or disabled?	|	Use .isEnabled() method.
+What if button is hidden by overlay?	|	Use JS click or wait for overlay to disappear.
+How to verify the button label or text?	|	Use .getText() for <button>, or .getAttribute("value") for <input type="submit">.
