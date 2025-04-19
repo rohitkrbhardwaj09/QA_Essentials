@@ -1800,7 +1800,7 @@ No. Each thread should have its own instance of FluentWait.
 
 | WebElement Type     | HTML Tag(s)                        | Example                       | Selenium Handling (Java)                                          |
 |----------------------|------------------------------------|-------------------------------|--------------------------------------------------------------------|
-| [Text Box](Selenium/Notes.md#Handling-Text-Boxes-in-Selenium-WebDriver)         | `<input type="text">`, `<textarea>` | Search bar, username field    | `element.sendKeys("text");`                                       |
+| [Text Box](Notes.md#Handling-Text-Boxes-in-Selenium-WebDriver)         | `<input type="text">`, `<textarea>` | Search bar, username field    | `element.sendKeys("text");`                                       |
 | **Password Field**   | `<input type="password">`         | Login form password           | `element.sendKeys("password");`                                   |
 | **Radio Button**     | `<input type="radio">`            | Gender selection              | `if (!element.isSelected()) element.click();`                      |
 | **Checkbox**         | `<input type="checkbox">`         | Agree to terms, filters       | `if (!element.isSelected()) element.click();`                      |
