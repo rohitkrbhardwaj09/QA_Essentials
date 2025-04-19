@@ -2631,3 +2631,154 @@ public class BasicAuthDemo {
 ### 📌 Output Page Expected:
 Once authenticated, it should show:
 > **Congratulations! You must have the proper credentials.**
+
+### Asssignment
+1) Click on login then handle alert : https://rediff.com/login/dologin
+
+#### Solution
+```java
+...........
+```
+
+---
+
+## Handling Frames in Selenium WebDriver
+### ❓ What is a Frame?
+### ✅ Answer"
+- Frame is an HTML element (<frame> or <iframe>) that embeds another document (webpage) within the current HTML document.
+- Selenium cannot access elements inside a frame directly — you need to switch into the frame first.
+
+### Types of Frames:
+1) Single Frame
+2) Nested Frames
+3) Multiple Frames
+
+### Frame Handling Methods
+
+
+Method	|	Description
+---	|	---
+driver.switchTo().frame(index)	|	Switch by index (0-based)
+driver.switchTo().frame(nameOrId)	|	Switch by frame’s name or ID
+driver.switchTo().frame(WebElement)	|	Switch using a WebElement
+driver.switchTo().defaultContent()	|	Switch back to main page
+driver.switchTo().parentFrame()	|	Switch back to immediate parent frame
+
+### ✅ Best Practice
+Always inspect the DOM and identify how many frames are present. You can switch based on index or WebElement for reliability.
+
+### 🚀 Real-Time Example
+Site: **https://ui.vision/demo/webtest/frames/**
+This site has multiple frames. Each frame contains an input box.
+
+### Java Program to Handle All 3 Frames
+```java
+package web_elements;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FramesDemo {
+
+	public static void main(String[] args) {
+
+
+		WebDriver driver = new ChromeDriver();
+		
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.get("https://ui.vision/demo/webtest/frames/");
+		driver.manage().window().maximize();
+		
+		// ---------- Frame 1 ---------------
+		WebElement frame1 = driver.findElement(By.xpath("//frame[@src='frame_1.html']"));
+	
+		driver.switchTo().frame(frame1);
+		driver.findElement(By.xpath("//input[@name='mytext1']")).sendKeys("Welcome");
+		
+		//switch back to the main window
+		driver.switchTo().defaultContent();
+	
+		// ---------- Frame 2 ---------------
+		WebElement frame2 = driver.findElement(By.xpath("//frame[@src='frame_2.html']"));
+		driver.switchTo().frame(frame2);
+		driver.findElement(By.xpath("//input[@name='mytext2']")).sendKeys("Text in field 2");
+		
+		//switch back to the main window
+		driver.switchTo().defaultContent();
+		
+		// ---------- Frame 3 --------------
+		WebElement frame3= driver.findElement(By.xpath("//frame[@src='frame_3.html']"));
+		driver.switchTo().frame(frame3);
+
+		//switching to the inner frame
+		driver.switchTo().frame(0);
+
+		//selecting option from the given form
+		driver.findElement(By.xpath("//div[@id='i6']")).click();
+		
+		driver.quit();	
+	}
+}
+```
+
+### Notes:
+### ❓ How to Count Frames on Page
+### ✅ Answer
+```java
+List<WebElement> frames = driver.findElements(By.tagName("iframe"));
+System.out.println("Total Frames: " + frames.size());
+```
+
+### Frame Handling - Interview Ready Points
+- Selenium cannot interact with elements inside a frame unless switched.
+- Always switch back using `defaultContent()` before accessing elements outside.
+- Nested frames need two-step switching — outer → inner.
+
+## Assignment
+-------
+
+1) https://ui.vision/demo/webtest/frames/
+2) switch to 5th frame
+3) Check logo presence in the inner frame
+
+#### solution
+```java
+package web_elements;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FrameAssignment {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.manage().window().maximize();
+		driver.get("https://ui.vision/demo/webtest/frames/");
+
+		WebElement frame5 = driver.findElement(By.xpath("//frame[@src='frame_5.html']"));
+		driver.switchTo().frame(frame5);
+		
+		driver.findElement(By.xpath("//a[normalize-space()='https://a9t9.com']")).click();
+		
+		boolean status = driver.findElement(By.xpath("//a[@id='logo']")).isDisplayed();
+		if(status) {
+			System.out.println("Logo is displaying");
+		}else {
+			System.out.println("Logo is not displaying");
+		}
+	}
+
+}
+```
