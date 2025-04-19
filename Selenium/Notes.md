@@ -2845,7 +2845,7 @@ for (WebElement option : options) {
 }
 ```
 
-3. Bootstrap Dropdown
+## [3. Bootstrap Dropdown](Notes.md#Bootstrap-Dropdown-Handling-with-Selenium)
 ✅ Identified by:
 Built using Bootstrap framework
 
@@ -3000,4 +3000,76 @@ public class DropDownDemo {
 	}
 }
 ```
+---
+## Bootstrap Dropdown Handling with Selenium
+### 📌 Concept Summary
+- Bootstrap Dropdown: Unlike standard <select> HTML elements, Bootstrap dropdowns are built using `<ul>`, `<li>`, and styled with custom JavaScript and CSS. Hence, we can't use the Select class to interact with them.
+- We must use `click()` and locate elements using XPath or CSS Selectors.
+
+### ✅ Operations Performed in the Program
+Operation | Description
+--- | ---
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)) | Set global implicit wait.
+driver.manage().window().maximize() | Maximize the browser window.
+driver.get("URL") | Navigate to a specific page.
+driver.findElement(By.xpath(...)).click() | Click on the dropdown toggle or an item.
+driver.findElements(By.xpath(...)) | Capture a list of elements (all dropdown options).
+op.getText() | Get the text content of each dropdown item.
+op.click() | Click an individual option from the list.
+
+**</>** **Program**: 
+```java
+package web_elements;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DropDownBootstrap {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		
+		// Set implicit wait and maximize the browser window
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		
+		// Navigate to the Bootstrap dropdown demo page
+		driver.get("https://www.jquery-az.com/boots/demo.php?ex=63.0_2");
+
+		// Click on the dropdown toggle to expand the options
+		driver.findElement(By.xpath("//button[contains(@class, 'multiselect')]")).click();
+		
+		// Select a single option: Python
+		driver.findElement(By.xpath("//ul//input[@value=\"Python\"]")).click();
+		
+		// Capture all dropdown options (checkbox labels)
+		List<WebElement> options = driver.findElements(By.xpath("//ul//label[@class=\"checkbox\"]"));
+		System.out.println("Total count of options are: " + options.size());
+		
+		// Print all dropdown options' visible text
+		for (WebElement op : options) {
+			System.out.println(op.getText());
+		}
+		
+		// Select multiple options: Oracle, Java, MySQL
+		for (WebElement op : options) {
+			String option = op.getText();
+			if (option.equals("Oracle") || option.equals("Java") || option.equals("MySQL")) {
+				op.click();
+			}
+		}
+		
+		// TODO: Additional validation such as checking selected state or deselecting options
+		// You can extend this logic using op.findElement(By.tagName("input")).isSelected()
+		// or implementing deselect feature (by clicking again)
+	}
+}
+```
+---
 
