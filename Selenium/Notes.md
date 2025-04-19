@@ -1814,6 +1814,7 @@ No. Each thread should have its own instance of FluentWait.
 | **iFrame**           | `<iframe>`                        | Embedded frame, ads           | `driver.switchTo().frame(element);`                               |
 | **Date Picker**      | `<input type="date">` or custom   | Calendar widget               | `element.sendKeys("2025-04-19");` (varies for custom pickers)     |
 | [Alert](Notes.md#Handling-Alert-Boxes-in-Selenium-WebDriver) | dummy | dummy | dummy |
+| [Authentication popup](Notes.md#Handling-browser-based-authentication-popups-in-Selenium-WebDriver) | dummy | dummy | dummy |
 
 # Notes:
 - Always locate your WebElement first using `driver.findElement(By.…)` or `findElements()`
@@ -2585,3 +2586,48 @@ Simple Alert	|	Login warning, confirmation messages
 Confirmation Alert	|	Deleting a record or logout prompt
 Prompt Alert	|	Asking for a reason for rejection/confirmation
 Dynamic Alert Wait	|	Alerts triggered after AJAX or server call
+
+---
+
+## Handling browser based authentication popups in Selenium WebDriver
+
+### 🔗 Practice URL
+
+👉 [https://the-internet.herokuapp.com/basic_auth](https://the-internet.herokuapp.com/basic_auth)
+
+This is a browser-based authentication popup (also called a Basic Authentication dialog), which Selenium cannot handle using sendKeys() or alerts, because it's part of the browser, not the webpage DOM.
+
+✅** Workaround to Bypass Basic Authentication**
+You can pass the username and password in the URL like this:
+```perl
+https://username:password@your-url
+```
+### 💡 Working Example with Selenium:
+```java
+package web_elements;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BasicAuthDemo {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+
+        // Username and password are both "admin"
+        driver.get("https://admin:admin@the-internet.herokuapp.com/basic_auth");
+
+        // Validate success
+        String pageSource = driver.getPageSource();
+        if (pageSource.contains("Congratulations")) {
+            System.out.println("✅ Authentication successful.");
+        } else {
+            System.out.println("❌ Authentication failed.");
+        }
+
+        driver.quit();
+    }
+}
+```
+### 📌 Output Page Expected:
+Once authenticated, it should show:
+> **Congratulations! You must have the proper credentials.**
