@@ -2916,6 +2916,7 @@ driver.findElement(By.xpath("//li[text()='Option 1']")).click();
 
 ✅ Summary Table
 Type | HTML Tag(s) | Identified By | Selenium Handling
+--- | --- | --- | ---
 Standard Dropdown | <select> | Native HTML dropdown | Select class
 Custom Dropdown | <div>, <ul>, etc. | No <select>, JS/CSS based | Manual click + list find
 Bootstrap Dropdown | <button>, <a> | Bootstrap class (dropdown) | Manual click + class based selector
@@ -3003,10 +3004,10 @@ public class DropDownDemo {
 ---
 ## Bootstrap Dropdown Handling with Selenium
 ### 📌 Concept Summary
-- Bootstrap Dropdown: Unlike standard <select> HTML elements, Bootstrap dropdowns are built using `<ul>`, `<li>`, and styled with custom JavaScript and CSS. Hence, we can't use the Select class to interact with them.
-- We must use `click()` and locate elements using XPath or CSS Selectors.
+
 
 ### ✅ Operations Performed in the Program
+
 Operation | Description
 --- | ---
 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)) | Set global implicit wait.
@@ -3017,7 +3018,7 @@ driver.findElements(By.xpath(...)) | Capture a list of elements (all dropdown op
 op.getText() | Get the text content of each dropdown item.
 op.click() | Click an individual option from the list.
 
-**</>** **Program**: 
+**Program**: 
 ```java
 package web_elements;
 
