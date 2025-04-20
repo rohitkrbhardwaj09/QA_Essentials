@@ -3074,3 +3074,112 @@ public class DropDownBootstrap {
 ```
 ---
 
+## Auto-Suggest Dropdown Handling in Selenium
+
+### 🔍 What is Auto-Suggest Dropdown?
+
+Auto-suggest dropdowns dynamically show matching results as you type. These suggestions aren't part of a `<select>` element but are usually rendered in a list (like `<ul><li>` structure) and are visible in the DOM after typing.
+
+Example: **Google search suggestions**.
+
+### 🧠 Key Concepts
+
+- DOM gets updated as you type.
+- Suggestions are usually loaded with delay (Ajax/JavaScript).
+- Need to wait (explicit or Thread.sleep) to ensure options are present.
+- Located using dynamic XPath based on structure (`ul > li`).
+- Cannot use `Select` class (not a `<select>` element).
+- Loop through suggestions and match using `.getText()`.
+
+---
+
+### ✅ Methods Used
+
+| Method | Description |
+|--------|-------------|
+| `sendKeys()` | Types in the input box to trigger suggestions |
+| `findElements()` | Captures multiple list suggestions |
+| `getText()` | Gets visible text of suggestion |
+| `click()` | Clicks the desired suggestion |
+| `Thread.sleep()` | Pauses to let suggestions load |
+| `getTitle()` | Retrieves page title to validate navigation |
+
+### 🌐 Demo Site
+
+Use: [https://www.google.com](https://www.google.com)  
+Search for: `Selenium`  
+Expected suggestion: `selenium interview questions`  
+
+### 🧪 Real-time Use Case
+
+- Auto-suggest search (Google, Amazon)
+- Tagging people in social apps
+- City name auto-complete fields in travel portals
+
+---
+
+### ⚠️ Tips
+
+- Always ensure suggestions are visible before clicking.
+- Handle `StaleElementReferenceException` in dynamic content cases.
+- Use normalized text for matching (handle case-sensitivity).
+
+```java
+package web_elements;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DropdownAutosuggest {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+
+        // Maximize browser and set implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+
+        // Navigate to Google
+        driver.get("https://www.google.com/");
+
+        // Enter search keyword to trigger auto-suggest dropdown
+        driver.findElement(By.name("q")).sendKeys("Selenium");
+
+        // Wait for suggestions to load
+        Thread.sleep(3000);
+
+        // Capture all suggestions from auto-suggest dropdown
+        List<WebElement> suggestions = driver.findElements(By.xpath("//ul[@role='listbox']//li"));
+
+        // Loop through each suggestion
+        for (WebElement suggestion : suggestions) {
+            String text = suggestion.getText();
+            if (text.equalsIgnoreCase("selenium interview questions")) {
+                suggestion.click(); // Click the matching suggestion
+                break;
+            }
+        }
+
+        // Wait for results to load
+        Thread.sleep(5000);
+
+        // Click on specific search result link
+        driver.findElement(By.xpath("//h3[normalize-space()='Selenium Interview Questions and Answers']")).click();
+
+        // Validate the page title
+        if (driver.getTitle().contains("GeeksforGeeks")) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Something went wrong");
+        }
+
+        driver.quit(); // Close the browser
+    }
+}
+````
