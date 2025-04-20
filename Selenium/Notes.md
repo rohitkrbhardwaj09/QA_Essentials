@@ -3294,10 +3294,10 @@ A dynamic pagination table loads different sets of rows per page, and requires n
 ### 🧠 Key Points to Handle:
 Key Point | Explanation
 --- | ---
-1. Pagination Elements | Identify how many pages exist using XPath or CSS selectors.
-2. Page Navigation | Loop through pages and click pagination links.
-3. Data Extraction | Fetch data from each page after it loads.
-4. Synchronization | Wait for the table to refresh after each pagination click.
+Pagination Elements | Identify how many pages exist using XPath or CSS selectors.
+Page Navigation | Loop through pages and click pagination links.
+Data Extraction | Fetch data from each page after it loads.
+Synchronization | Wait for the table to refresh after each pagination click.
 
 ```java
 package web_elements;
