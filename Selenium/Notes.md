@@ -3213,6 +3213,7 @@ Scroll down to the section **"Web Table"** — it is a perfect example of a stat
 package web_elements;
 
 import java.time.Duration;
+import java.util.Iterator;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -3228,45 +3229,57 @@ public class StaticWebTable {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
 		
-		// Launch the demo page with static web table
 		driver.get("https://testautomationpractice.blogspot.com/");
 		
-		// 1) Locate the static web table by 'name' attribute
+		//1) Locate the table
 		WebElement table = driver.findElement(By.name("BookTable"));
 		
-		// 2) Count number of rows (including header row as it's inside <tbody>)
+		//2) Count number of rows (excluding header)
 		List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
-		System.out.println("Total rows including header: "+ rows.size());
+		System.out.println("Total rows are: "+ rows.size());
 		
-		// 3) Count number of columns by checking the number of <th> elements
+		//3) Count number of columns
 		List<WebElement> cols = table.findElements(By.xpath("//table[@name='BookTable']//tbody//th"));
 		System.out.println("Total columns are: "+ cols.size());
 		
-		// 4) Print entire table data excluding header
-		System.out.println("\nEntire Table Data:");
-		for(int i = 2; i <= rows.size(); i++) { // Start from 2 to skip header row
-			for(int j = 1; j <= cols.size(); j++) {
-				String cell = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td["+j+"]")).getText();
-				System.out.print("\t" + cell + "\t");
+		//4) Print entire table data
+		List<WebElement> ele = table.findElements(By.xpath("//table[@name='BookTable']//tbody//tr//td"));
+		System.out.println("Entire Table is: ");
+//		WebElement element : ele) {
+//			System.out.println(element.getText());
+//		}
+		for(int i=2; i<=rows.size(); i++) {
+			for(int j=1; j<=cols.size(); j++) {
+				String element = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td["+j+"]")).getText();
+				System.out.print("\t"+element+"\t");
 			}
 			System.out.println();
 		}
 		
-		// 5) Print a specific cell data (e.g. Row 2, Column 2)
+		//5) Print a specific cell data (e.g row 2 column 1)
 		WebElement cellData = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr[3]//td[2]"));
-		System.out.println("\nData at Row 2, Column 2: " + cellData.getText());
+		System.out.println("Row 2 Cell 1 Data is: "+ cellData.getText());
 		
-		// 6) Conditional operation - Print book name where author is 'Mukesh'
-		System.out.println("\nBooks written by 'Mukesh':");
-		for(int i = 2; i <= rows.size(); i++) {
-			String author = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[2]"))
-							.getText();
+		
+		//6) Conditional data (Print book name whose auther is 'Mukesh')
+		for(int i = 2; i<rows.size(); i++) {
+			String author = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[2]")).getText();
 			if(author.equals("Mukesh")) {
-				String bookName = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[1]"))
-							.getText();
-				System.out.println(bookName);
+				String BookName = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[1]")).getText();
+				System.out.println(BookName);
 			}
 		}
+		
+		//7) find total price of all the books
+		List<WebElement> prices=table.findElements(By.xpath("//table[@name='BookTable']//tbody//td[4]"));
+		float totalPrice = 0;
+		for (WebElement price : prices) {
+			
+			totalPrice = totalPrice + Float.parseFloat(price.getText());
+			
+		}
+		System.out.println("Total count of all books are: "+ totalPrice);
+		
 		
 		driver.quit();
 	}
