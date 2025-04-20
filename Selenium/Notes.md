@@ -3183,3 +3183,100 @@ public class DropdownAutosuggest {
     }
 }
 ````
+
+---------
+<h1 align='center'>Web Tables</h1>
+
+## :arrow_forward: 1)  Static Web Table
+
+
+### 🔹 What is a Static Web Table?
+
+A **static web table** has fixed rows and columns and does not change dynamically. The structure remains constant and can be easily located and iterated using standard Selenium locators like XPath or CSS selectors.
+
+### 🧪 Sample Site
+
+**URL:** [https://testautomationpractice.blogspot.com/](https://testautomationpractice.blogspot.com/)
+
+Scroll down to the section **"Web Table"** — it is a perfect example of a static table.
+
+### 🧰 Key Points
+
+- Static web tables are not loaded dynamically via JavaScript.
+- The table structure remains same even after refresh.
+- All data is loaded with page load itself.
+- You can easily get rows using `//table/tbody/tr` and cells using `//table/tbody/tr/td`.
+
+### 🛠️ Selenium Program to Handle Static Web Table
+
+```java
+package web_elements;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class StaticWebTable {
+
+	public static void main(String[] args) {
+		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+		
+		// Launch the demo page with static web table
+		driver.get("https://testautomationpractice.blogspot.com/");
+		
+		// 1) Locate the static web table by 'name' attribute
+		WebElement table = driver.findElement(By.name("BookTable"));
+		
+		// 2) Count number of rows (including header row as it's inside <tbody>)
+		List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
+		System.out.println("Total rows including header: "+ rows.size());
+		
+		// 3) Count number of columns by checking the number of <th> elements
+		List<WebElement> cols = table.findElements(By.xpath("//table[@name='BookTable']//tbody//th"));
+		System.out.println("Total columns are: "+ cols.size());
+		
+		// 4) Print entire table data excluding header
+		System.out.println("\nEntire Table Data:");
+		for(int i = 2; i <= rows.size(); i++) { // Start from 2 to skip header row
+			for(int j = 1; j <= cols.size(); j++) {
+				String cell = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td["+j+"]")).getText();
+				System.out.print("\t" + cell + "\t");
+			}
+			System.out.println();
+		}
+		
+		// 5) Print a specific cell data (e.g. Row 2, Column 2)
+		WebElement cellData = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr[3]//td[2]"));
+		System.out.println("\nData at Row 2, Column 2: " + cellData.getText());
+		
+		// 6) Conditional operation - Print book name where author is 'Mukesh'
+		System.out.println("\nBooks written by 'Mukesh':");
+		for(int i = 2; i <= rows.size(); i++) {
+			String author = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[2]"))
+							.getText();
+			if(author.equals("Mukesh")) {
+				String bookName = table.findElement(By.xpath("//table[@name='BookTable']//tbody//tr["+i+"]//td[1]"))
+							.getText();
+				System.out.println(bookName);
+			}
+		}
+		
+		driver.quit();
+	}
+
+}
+````
+
+## :arrow_forward: 2)  Dynamic Web Table
+:globe_with_meridians: [Practice Site](https://testautomationpractice.blogspot.com/)
+
+
+## :arrow_forward: 3)  Table With Pagination
+:globe_with_meridians: [Practice Site](https://testautomationpractice.blogspot.com/)
