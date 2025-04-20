@@ -3287,9 +3287,72 @@ public class StaticWebTable {
 }
 ````
 
-## :arrow_forward: 2)  Dynamic Web Table
-:globe_with_meridians: [Practice Site](https://testautomationpractice.blogspot.com/)
+## :arrow_forward: 2)  Dynamic Pagination Web Table
+### Q: What is a Dynamic Pagination Table?
+A dynamic pagination table loads different sets of rows per page, and requires navigation through pagination controls (e.g. 1, 2, 3...) to access all data.
 
+### 🧠 Key Points to Handle:
+Key Point | Explanation
+--- | ---
+1. Pagination Elements | Identify how many pages exist using XPath or CSS selectors.
+2. Page Navigation | Loop through pages and click pagination links.
+3. Data Extraction | Fetch data from each page after it loads.
+4. Synchronization | Wait for the table to refresh after each pagination click.
 
-## :arrow_forward: 3)  Table With Pagination
-:globe_with_meridians: [Practice Site](https://testautomationpractice.blogspot.com/)
+```java
+package web_elements;
+
+import java.time.Duration;
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DynamicPaginationTable {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.manage().window().maximize();
+
+		driver.get("https://testautomationpractice.blogspot.com/");
+
+		// Find total number of pagination pages
+		List<WebElement> totalPages = driver.findElements(By.xpath("//ul[@id='pagination']//li"));
+
+		// Iterate over each page
+		for (int i = 1; i <= totalPages.size(); i++) {
+
+			// Click on the pagination number
+			driver.findElement(By.xpath("//ul[@id='pagination']//li[" + i + "]")).click();
+			Thread.sleep(1000); // Wait for data to load
+
+			// Locate rows of current page
+			List<WebElement> rows = driver.findElements(By.xpath("//*[@id='productTable']//tbody//tr"));
+
+			for (WebElement row : rows) {
+				List<WebElement> cols = row.findElements(By.tagName("td"));
+
+				String id = cols.get(0).getText();
+				String name = cols.get(1).getText();
+				String price = cols.get(2).getText();
+
+				WebElement checkbox = cols.get(3).findElement(By.tagName("input"));
+				checkbox.click();
+
+				System.out.println("ID: " + id + ", Name: " + name + ", Price: " + price + ", Checked: " + checkbox.isSelected());
+			}
+
+			System.out.println("---- Completed Page: " + i + " ----");
+		}
+
+		driver.quit();
+	}
+}
+```
+### 🧪 Bonus Use Cases You Can Add
+- ✅ Filter data with conditions (e.g., print only rows with price > 500)
+- 📤 Export table data into Excel or CSV
+- 🧾 Verify checkbox status or total row count across pages
